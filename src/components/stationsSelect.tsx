@@ -1,38 +1,41 @@
 "use client";
 
-import * as React from "react"
-import { Check, ChevronsUpDown } from "lucide-react"
+import * as React from "react";
+import { Check, ChevronsUpDown } from "lucide-react";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   Command,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
-} from "@/components/ui/command"
+} from "@/components/ui/command";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
+} from "@/components/ui/popover";
 
-import { useState } from "react"
-import { ScrollArea } from "@/components/ui/scroll-area"
+import { useState } from "react";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import { Station } from "@/lib/stations";
 
 type Props = {
   availableStations: Station[];
   selectedStations: Station[];
-  onSelect: ((station: Station) => void)
-}
+  onSelect: (station: Station) => void;
+};
 
 export function StationSelect(props: Props) {
-  const { availableStations: availableStations, selectedStations: selectedStations, onSelect } = props;
+  const {
+    availableStations: availableStations,
+    selectedStations: selectedStations,
+    onSelect,
+  } = props;
 
-  const [open, setOpen] = useState(false)
-
+  const [open, setOpen] = useState(false);
 
   let boxLabel: string;
   if (selectedStations.length === 0) {
@@ -45,9 +48,7 @@ export function StationSelect(props: Props) {
 
   return (
     <>
-      {availableStations.length == 0 && (
-        <div>Loading...</div>
-      )}
+      {availableStations.length == 0 && <div>Loading...</div>}
       {availableStations.length > 0 && (
         <>
           <Popover open={open} onOpenChange={setOpen}>
@@ -73,17 +74,23 @@ export function StationSelect(props: Props) {
                         key={station.name}
                         value={station.name}
                         onSelect={(currentValue) => {
-                          const selectedStation = availableStations.find((station) => station.name.toLowerCase() === currentValue);
+                          const selectedStation = availableStations.find(
+                            (station) =>
+                              station.name.toLowerCase() === currentValue,
+                          );
 
                           setOpen(false);
-                          if (selectedStation)
-                            onSelect(selectedStation);
+                          if (selectedStation) onSelect(selectedStation);
                         }}
                       >
                         <Check
                           className={cn(
                             "mr-2 h-4 w-4",
-                            selectedStations.find((selected) => selected.id == station.id) ? "opacity-100" : "opacity-0"
+                            selectedStations.find(
+                              (selected) => selected.id == station.id,
+                            )
+                              ? "opacity-100"
+                              : "opacity-0",
                           )}
                         />
                         {station.name}
@@ -95,8 +102,7 @@ export function StationSelect(props: Props) {
             </PopoverContent>
           </Popover>
         </>
-      )
-      }
+      )}
     </>
   );
 }
