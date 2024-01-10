@@ -18,14 +18,9 @@ export function RenderStation(props: RenderStationProps) {
       let departures = departuresResponse.data as Array<any>;
       departures = departures.sort((a, b) => a.realtimeDepartureTime - b.realtimeDepartureTime);
 
-      // Add a property to calculate time until arrival in minutes
-      const currentTime = Date.now();
-      departures = departures.map(departure => {
-        const arrivalTimeInMinutes = Math.round((departure.realtimeDepartureTime - currentTime) / (60 * 1000));
-        return { ...departure, timeUntilArrival: arrivalTimeInMinutes };
-      });
-
-      // departures.filter((departure) => departure.timeUntilArrival < -10); // Filter out departures that are more than 10 minutes in the past
+      // Filter out departures that are more than 10 minutes in the past
+      const time = Date.now();
+      departures = departures.filter((departure) => (departure.realtimeDepartureTime - time) / (1000 * 60) > -10);
 
       // Slice to get the first 10 entries
       departures = departures.slice(0, 10);
@@ -46,13 +41,39 @@ export function RenderStation(props: RenderStationProps) {
     <>
       <div>
         {departures.map((departure, index) => (
-          <div key={index}>
-            <span>{departure.label}</span> -{" "}
-            <span>{departure.destination}</span> -{" "}
-            <span>{departure.timeUntilArrival}</span>
+          <div key={index} className={(index % 2 == 0) ? "bg-blue-800" : "bg-blue-900"} >
+            <table>
+              <tr>
+                <td>{formatVehicleIdentifier(departure.transportType, departure.label)}</td>
+                <td>{departure.destination}</td>
+                <td>{formatDepartureTime(departure.realtimeDepartureTime)}</td>
+              </tr>
+            </table>
           </div>
         ))}
       </div>
     </>
   );
+}
+
+function formatDepartureTime(departureTime: number) {
+  const now = Date.now();
+  const timeUntilArrival = Math.round((departureTime - now) / (1000 * 60)); // Time in minutes
+
+  const text = "Now";
+
+  if (timeUntilArrival > 0) {
+    return `${timeUntilArrival} min`;
+  }
+
+  return text;
+}
+
+function formatVehicleIdentifier(type: string, label: string) {
+  // let color = "red";
+  // switch (type) {
+  //   case "SBAHN":
+  //     color = ""
+  // }
+  return label;
 }

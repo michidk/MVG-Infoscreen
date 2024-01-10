@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 
 
 type Props = {
-  stations: any[];
+  stations: Station[];
 }
 
 export function StationUrl(props: Props) {
@@ -19,7 +19,7 @@ export function StationUrl(props: Props) {
 
   const [selectedStations, setSelectedStations] = useState<Station[]>([])
 
-  const url = `${siteConfig.url}/infocreen?station=${selectedStations.map((station) => station.id).join(",")}`;
+  const url = `${siteConfig.url}/infoscreen?stations=${selectedStations.map((station) => station.id)}`;
   const active = selectedStations.length > 0;
 
   return (

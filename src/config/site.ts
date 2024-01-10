@@ -1,12 +1,11 @@
 export type SiteConfig = typeof siteConfig
 
 export const siteConfig = {
-  name: "OctoPal",
+  name: "MVG Infoscreen",
   description:
-    "GitHub's first observability tool 🚀",
+    "A simple infoscreen for the Munich public transport system (MVG).",
   links: {
-    github: "https://github.com/OctoPal",
-    docs: "https://ui.shadcn.com",
+    github: "https://github.com/michidk/MVG-Infoscreen",
   },
-  url: "http://localhost:3000",
+  url: "https://mvg-infoscreen.vercel.app",
 }

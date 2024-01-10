@@ -1,7 +1,6 @@
 {
   "name": "mvg-infoscreen",
   "version": "0.1.0",
-  "private": true,
   "module": "es2022",
   "scripts": {
     "dev": "next dev",
