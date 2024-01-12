@@ -43,7 +43,7 @@ export default async function Page(props: Props) {
   )!;
 
   return (
-    <div className="overflow-hidden w-full h-screen bg-blue-900 text-white p-5">
+    <div className="w-full h-screen bg-blue-900 text-white p-5">
       {stationInfos.map((station, index) => (
         <div key={index} className="mb-10">
           <h1 className="text-7xl pb-4">{station.name}</h1>
