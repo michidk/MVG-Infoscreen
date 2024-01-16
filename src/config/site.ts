@@ -7,5 +7,5 @@ export const siteConfig = {
   links: {
     github: "https://github.com/michidk/MVG-Infoscreen",
   },
-  url: "https://mvg-infoscreen.vercel.app",
+  url: process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000",
 };
