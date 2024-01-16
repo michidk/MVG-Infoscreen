@@ -155,7 +155,7 @@ export function StationSelect(props: Props) {
                   <CommandInput placeholder="Search station..." />
                   <ScrollArea className="h-96">
                     {
-                      allStationsLoaded ? <></> :              
+                      allStationsLoaded ? <></> :
                       <Button
                         variant="outline"
                         className="w-full justify-center"
