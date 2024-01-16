@@ -10,6 +10,7 @@ type RenderStationProps = {
 
 const ENTRIES = 8;
 const REFRESH_INTERVAL = 1000 * 3; // 3 seconds
+const API_TIMEOUT = 1000 * 2; // 2 seconds
 
 export function RenderStation(props: RenderStationProps) {
   const { stationId } = props;
@@ -18,29 +19,43 @@ export function RenderStation(props: RenderStationProps) {
 
   useEffect(() => {
     const fetchStations = async () => {
-      const departuresResponse = await axios.get(
-        `https://www.mvg.de/api/fib/v2/departure?globalId=${stationId}`,
-      );
-      let departures = departuresResponse.data as Array<any>;
-      departures = departures.sort(
-        (a, b) => a.realtimeDepartureTime - b.realtimeDepartureTime,
-      );
+      try {
+        const departuresResponse = await axios.get(`https://www.mvg.de/api/fib/v2/departure?globalId=${stationId}`, {
+          timeout: API_TIMEOUT,
+        });
+        if (departuresResponse.status !== 200) {
+          throw new Error("Could not get departures");
+        }
+        let departures = departuresResponse.data as Array<any>;
 
-      // Filter out departures that are more than 10 minutes in the past
-      const time = Date.now();
-      departures = departures.filter(
-        (departure) =>
-          (departure.realtimeDepartureTime - time) / (1000 * 60) > -10,
-      );
+        departures = departures.sort(
+          (a, b) => a.realtimeDepartureTime - b.realtimeDepartureTime,
+        );
 
-      // Slice to get the first couple entries
-      departures = departures.slice(0, ENTRIES);
+        // Filter out departures that are more than 10 minutes in the past
+        const time = Date.now();
+        departures = departures.filter(
+          (departure) =>
+            (departure.realtimeDepartureTime - time) / (1000 * 60) > -10,
+        );
 
-      setDepartures(departures);
+        // Slice to get the first couple entries
+        departures = departures.slice(0, ENTRIES);
+
+        setDepartures(departures);
+      } catch (error: any) {
+        if (error.code === 'ECONNABORTED') {
+          console.error('Request to `/departure` timed out');
+        } else {
+          console.error('An error occurred (`/departure`)', error.message);
+        }
+      }
     };
 
+    // Fetch once on mount
     fetchStations();
 
+    // Fetch every REFRESH_INTERVAL
     const interval = setInterval(() => {
       fetchStations();
     }, REFRESH_INTERVAL);
@@ -53,7 +68,14 @@ export function RenderStation(props: RenderStationProps) {
       <div>
         <Table>
           <TableBody>
-            {departures.map((departure, index) => (
+            {departures.length === 0 && (
+              <TableRow className="text-4xl">
+                <TableCell className="p-0 px-4 py-2">
+                  No departures
+                </TableCell>
+              </TableRow>
+            )}
+            {departures.length > 0 && departures.map((departure, index) => (
               <TableRow
                 key={index}
                 className={"text-4xl " + (index % 2 == 0 ? "" : "bg-blue-800")}

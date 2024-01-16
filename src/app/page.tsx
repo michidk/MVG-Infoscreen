@@ -4,12 +4,21 @@ import { getStations } from "@/lib/stations";
 import { StationUrl } from "@/components/stationUrl";
 
 export default async function Page() {
-  const stations = await getStations();
+  try {
+    const stations = await getStations();
 
-  return (
-    <>
-      Select a station:
-      <StationUrl stations={stations} />
-    </>
-  );
+    return (
+      <>
+        Select a station:
+        <StationUrl stations={stations} />
+      </>
+    );
+  } catch (e: any) {
+    return (
+      <>
+        <div>Could not load stations.</div>
+        <div>{e.message}</div>
+      </>
+    );
+  }
 }
