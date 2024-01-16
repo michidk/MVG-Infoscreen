@@ -133,7 +133,7 @@ export function StationSelect(props: Props) {
     <>
       {
         //making sure that availableStations is always available at this point
-        !availableStations || availableStations.length == 0 ?   
+        !availableStations || availableStations.length == 0 ?
           <></>
         :
         (
