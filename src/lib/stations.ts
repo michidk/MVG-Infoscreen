@@ -1,5 +1,7 @@
 import axios from "axios";
 
+const API_TIMEOUT = 1000 * 5; // 5 seconds
+
 export type Station = {
   name: string;
   id: string;
@@ -15,7 +17,7 @@ export async function getStations() {
 }
 
 export async function pollStations() {
-  const response = await axios.get("https://www.mvg.de/.rest/zdm/stations");
+  const response = await axios.get("https://www.mvg.de/.rest/zdm/stations", { timeout: API_TIMEOUT });
   if (response.status !== 200) {
     throw new Error("Could not get stations");
   }
