@@ -105,7 +105,7 @@ export function StationSelect(props: Props):React.JSX.Element {
     <>
       {
         //making sure that availableStations is always available at this point
-        !availableStations || availableStations.length == 0 ?   
+        !availableStations || availableStations.length == 0 ?
           <></>
         :
         (
@@ -127,7 +127,7 @@ export function StationSelect(props: Props):React.JSX.Element {
                   <CommandInput placeholder="Search station..." />
                   <ScrollArea className="h-96">
                     {
-                      allStationsLoaded ? <></> :              
+                      allStationsLoaded ? <></> :
                       <Button
                         variant="outline"
                         className="w-full justify-center"
