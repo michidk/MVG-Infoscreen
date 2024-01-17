@@ -17,10 +17,8 @@ export async function getStations() {
 
   const stations: Array<any> = await response.json();
 
-  return stations.map((station: any) => {
-    return {
-      name: station.name,
-      id: station.id,
-    };
-  });
+  return stations.filter(station => station.products.length > 0 && station.tariffZones.length > 0).map(station => ({
+    name: station.name,
+    id: station.id,
+  }));
 }
