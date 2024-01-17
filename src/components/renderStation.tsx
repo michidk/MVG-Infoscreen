@@ -67,7 +67,7 @@ export function RenderStation(props: RenderStationProps) {
       <Table className="overflow-hidden">
           <TableBody>
             {departures.length === 0 && (
-              <TableRow className="text-4xl">
+              <TableRow className="text-3xl">
                 <TableCell className="p-0 px-4 py-2">
                   No departures
                 </TableCell>
@@ -76,7 +76,7 @@ export function RenderStation(props: RenderStationProps) {
             {departures.length > 0 && departures.map((departure, index) => (
               <TableRow
                 key={index}
-                className={"text-4xl " + (index % 2 == 0 ? "" : "bg-blue-800")}
+                className={"text-3xl " + (index % 2 == 0 ? "" : "bg-blue-800")}
               >
                 <TableCell className="p-0 px-4 py-2">
                   {formatVehicleIdentifier(
