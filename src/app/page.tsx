@@ -6,6 +6,7 @@ import { StationUrl } from "@/components/stationUrl";
 export default async function Page() {
   try {
     const stations = await getStations();
+    console.log("Loaded stations:", stations.length);
 
     return (
       <>

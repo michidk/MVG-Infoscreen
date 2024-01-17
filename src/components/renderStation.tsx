@@ -20,11 +20,12 @@ export function RenderStation(props: RenderStationProps) {
   useEffect(() => {
     const fetchStations = async () => {
       try {
-        const departuresResponse: any = await fetchWithTimeout(`https://www.mvg.de/api/fib/v2/departure?globalId=${stationId}`, {}, API_TIMEOUT);
-        if (departuresResponse.status !== 200) {
+        const response: any = await fetchWithTimeout(`https://www.mvg.de/api/fib/v2/departure?globalId=${stationId}`, {}, API_TIMEOUT);
+        if (response.status !== 200) {
           throw new Error("Could not get departures");
         }
-        let departures = departuresResponse.data as Array<any>;
+        let departures = await response.json() as Array<any>;
+        console.log("Loaded departures:", departures.length);
 
         departures = departures.sort(
           (a, b) => a.realtimeDepartureTime - b.realtimeDepartureTime,
@@ -63,8 +64,7 @@ export function RenderStation(props: RenderStationProps) {
 
   return (
     <>
-      <div>
-        <Table>
+      <Table className="overflow-hidden">
           <TableBody>
             {departures.length === 0 && (
               <TableRow className="text-4xl">
@@ -94,7 +94,6 @@ export function RenderStation(props: RenderStationProps) {
             ))}
           </TableBody>
         </Table>
-      </div>
     </>
   );
 }
