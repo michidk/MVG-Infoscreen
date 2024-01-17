@@ -1,28 +1,21 @@
-import axios from "axios";
+import { fetchWithTimeout } from "./utils";
 
-const API_TIMEOUT = 1000 * 5; // 5 seconds
+const API_TIMEOUT = 1000 * 2;
 
 export type Station = {
   name: string;
   id: string;
 };
 
-let stations: Station[] = [];
-
 export async function getStations() {
-  if (stations.length == 0) {
-    stations = await pollStations();
-  }
-  return stations;
-}
+  const response = await fetchWithTimeout("https://www.mvg.de/.rest/zdm/stations", {}, API_TIMEOUT);
 
-export async function pollStations() {
-  const response = await axios.get("https://www.mvg.de/.rest/zdm/stations", { timeout: API_TIMEOUT });
-  if (response.status !== 200) {
+  console.log("Stations status", response.status);
+  if (!response.ok) {
     throw new Error("Could not get stations");
   }
 
-  const stations: any[] = response.data;
+  const stations: Array<any> = await response.json();
 
   return stations.map((station: any) => {
     return {

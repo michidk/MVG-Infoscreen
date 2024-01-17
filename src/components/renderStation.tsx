@@ -1,8 +1,8 @@
 "use client";
 
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { Table, TableBody, TableCell, TableHeader, TableRow } from "./ui/table";
+import { fetchWithTimeout } from "@/lib/utils";
 
 type RenderStationProps = {
   stationId: string;
@@ -20,9 +20,7 @@ export function RenderStation(props: RenderStationProps) {
   useEffect(() => {
     const fetchStations = async () => {
       try {
-        const departuresResponse = await axios.get(`https://www.mvg.de/api/fib/v2/departure?globalId=${stationId}`, {
-          timeout: API_TIMEOUT,
-        });
+        const departuresResponse: any = await fetchWithTimeout(`https://www.mvg.de/api/fib/v2/departure?globalId=${stationId}`, {}, API_TIMEOUT);
         if (departuresResponse.status !== 200) {
           throw new Error("Could not get departures");
         }
