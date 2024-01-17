@@ -30,94 +30,66 @@ type Props = {
 
 
 
-export function StationSelect(props: Props) {
+export function StationSelect(props: Props):React.JSX.Element {
+  const maxStationsInitialLoad:number = 800
   const {
     availableStations: availableStations,
     selectedStations: selectedStations,
     onSelect,
+  }: {
+    availableStations: Station[] | null;
+    selectedStations: Station[];
+    onSelect: (station: Station) => void;
   } = props;
 
-  const [open, setOpen] = useState(false);
-  const [dropDownCurrentState, setDropDownCurrentState] = useState(<></>)
-  const [allStationsLoaded, setAllStationsLoaded] = useState(false)
-  
-  //loading all stations into the dropdown (takes longer so only done if the user clicks on the "load all stations" button)
-  function loadAllStations() {
-    if(!availableStations) return
-    setAllStationsLoaded(true)
-    setDropDownCurrentState(
-      <CommandGroup>
-        {availableStations.map((station) => (
-          <CommandItem
-            key={station.id}
-            value={station.name}
-            onSelect={(currentValue) => {
-              const selectedStation = availableStations.find(
-                (station) =>
-                  station.name.toLowerCase() === currentValue,
-              );
+  const trimmedStations:Station[] = availableStations ? availableStations.slice(0, maxStationsInitialLoad) : []
+  const [open, setOpen]: [open: boolean, setOpen: React.Dispatch<React.SetStateAction<boolean>>] = useState(false);
+  const [dropDownCurrentState, setDropDownCurrentState] : [dropDownCurrentState: React.JSX.Element, setDropDownCurrentState: React.Dispatch<React.SetStateAction<React.JSX.Element>>] = useState(<></>)
+  const [allStationsLoaded, setAllStationsLoaded] : [allStationsLoaded: boolean, setAllStationsLoaded: React.Dispatch<boolean>] = useState(false)
 
-              setOpen(false);
-              setAllStationsLoaded(false)
-              if (selectedStation) onSelect(selectedStation);
-            }}
-          >
-            <Check
-              className={cn(
-                "mr-2 h-4 w-4",
-                selectedStations.find(
-                  (selected) => selected.id == station.id,
-                )
-                  ? "opacity-100"
-                  : "opacity-0",
-              )}
-            />
-            {station.name}
-          </CommandItem>
-        ))}
-      </CommandGroup>
+  function renderStations(stations:Station[]):React.JSX.Element{
+    return (
+        <CommandGroup>
+          {stations.map((station:Station) => (
+              <CommandItem
+                  key={station.id}
+                  value={station.name}
+                  onSelect={(currentValue:string):void => {
+                    const selectedStation:Station | undefined = availableStations ? availableStations.find(
+                        (station):boolean =>
+                            station.name.toLowerCase() === currentValue,
+                    ) : undefined;
+
+                    setOpen(false);
+                    setAllStationsLoaded(false)
+                    if (selectedStation) onSelect(selectedStation);
+                  }}
+              >
+                <Check
+                    className={cn(
+                        "mr-2 h-4 w-4",
+                        selectedStations.find(
+                            (selected) => selected.id == station.id,
+                        )
+                            ? "opacity-100"
+                            : "opacity-0",
+                    )}
+                />
+                {station.name}
+              </CommandItem>
+          ))}
+        </CommandGroup>
     )
   }
 
   //runs everytime the dropdown is opened
-  React.useEffect(() => {
+  React.useEffect(():void => {
     if(!availableStations) return
     setAllStationsLoaded(false)
-    //setting the dropdown to the first 800 stations to achieve a faster opening of the dropdown
-    setDropDownCurrentState(
-      <CommandGroup>
-        {/*the .filter function here limits the station array to the first 800*/}
-        {availableStations.filter((item, idx) => idx < 800).map((station) => (
-          <CommandItem
-            key={station.id}
-            value={station.name}
-            onSelect={(currentValue) => {
-              const selectedStation = availableStations.find(
-                (station) =>
-                  station.name.toLowerCase() === currentValue,
-              );
 
-              setOpen(false);
-              setAllStationsLoaded(false)
-              if (selectedStation) onSelect(selectedStation);
-            }}
-          >
-            <Check
-              className={cn(
-                "mr-2 h-4 w-4",
-                selectedStations.find(
-                  (selected) => selected.id == station.id,
-                )
-                  ? "opacity-100"
-                  : "opacity-0",
-              )}
-            />
-            {station.name}
-          </CommandItem>
-        ))}
 
-      </CommandGroup>
-    )
+    setDropDownCurrentState(renderStations(trimmedStations))
+
   }, [open])
 
   let boxLabel: string;
@@ -159,7 +131,7 @@ export function StationSelect(props: Props) {
                       <Button
                         variant="outline"
                         className="w-full justify-center"
-                        onClick={() => loadAllStations()}>
+                        onClick={() => setDropDownCurrentState(renderStations(availableStations))}>
                           Load All Stations...
                       </Button>
                     }
