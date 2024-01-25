@@ -5,7 +5,7 @@ import { StationUrl } from "@/components/stationUrl";
 
 export default async function Page() {
   try {
-    const stations:Station[] = await getStations();
+    const stations: Station[] = await getStations();
 
     return (
       <>
