@@ -28,8 +28,6 @@ type Props = {
   onSelect: (station: Station) => void;
 };
 
-
-
 export function StationSelect(props: Props):React.JSX.Element {
   const maxStationsInitialLoad:number = 500
   const {
