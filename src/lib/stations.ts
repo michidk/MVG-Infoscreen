@@ -1,46 +1,23 @@
-import axios, {AxiosResponse} from "axios";
+import { fetchWithTimeout } from "./utils";
 
-const API_TIMEOUT:number = 1000 * 5; // 5 seconds
+const API_TIMEOUT = 1000 * 2;
 
 export type Station = {
   name: string;
   id: string;
 };
+export async function getStations() {
+  const response = await fetchWithTimeout("https://www.mvg.de/.rest/zdm/stations", {}, API_TIMEOUT);
 
-export type apiReturnStation = {
-  name: string,
-  id: string,
-  place: string,
-  divaId: string,
-  abbreviation: string,
-  tariffZones: string,
-  products: string[],
-  latitude: number,
-  longitude: number,
-}
-
-
-let stations: Station[] = [];
-
-export async function getStations():Promise<Station[]> {
-  if (stations.length == 0) {
-    stations = await pollStations();
-  }
-  return stations;
-}
-
-export async function pollStations():Promise<Station[]>{
-  const response:AxiosResponse<apiReturnStation[]> = await axios.get("https://www.mvg.de/.rest/zdm/stations", { timeout: API_TIMEOUT });
-  if (response.status !== 200) {
+  console.log("Stations status", response.status);
+  if (!response.ok) {
     throw new Error("Could not get stations");
   }
 
-  const stations: apiReturnStation[] = response.data;
+  const stations: Array<any> = await response.json();
 
-  return stations.map((station: apiReturnStation):Station => {
-    return {
-      name: station.name,
-      id: station.id,
-    };
-  });
+  return stations.filter(station => station.products.length > 0 && station.tariffZones.length > 0).map(station => ({
+    name: station.name,
+    id: station.id,
+  }));
 }

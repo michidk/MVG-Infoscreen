@@ -1,8 +1,8 @@
 "use client";
 
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { Table, TableBody, TableCell, TableHeader, TableRow } from "./ui/table";
+import { fetchWithTimeout } from "@/lib/utils";
 
 type RenderStationProps = {
   stationId: string;
@@ -20,13 +20,12 @@ export function RenderStation(props: RenderStationProps) {
   useEffect(() => {
     const fetchStations = async () => {
       try {
-        const departuresResponse = await axios.get(`https://www.mvg.de/api/fib/v2/departure?globalId=${stationId}`, {
-          timeout: API_TIMEOUT,
-        });
-        if (departuresResponse.status !== 200) {
+        const response: any = await fetchWithTimeout(`https://www.mvg.de/api/fib/v2/departure?globalId=${stationId}`, {}, API_TIMEOUT);
+        if (response.status !== 200) {
           throw new Error("Could not get departures");
         }
-        let departures = departuresResponse.data as Array<any>;
+        let departures = await response.json() as Array<any>;
+        console.log("Loaded departures:", departures.length);
 
         departures = departures.sort(
           (a, b) => a.realtimeDepartureTime - b.realtimeDepartureTime,
@@ -65,11 +64,10 @@ export function RenderStation(props: RenderStationProps) {
 
   return (
     <>
-      <div>
-        <Table>
+      <Table className="overflow-hidden">
           <TableBody>
             {departures.length === 0 && (
-              <TableRow className="text-4xl">
+              <TableRow className="text-3xl">
                 <TableCell className="p-0 px-4 py-2">
                   No departures
                 </TableCell>
@@ -78,7 +76,7 @@ export function RenderStation(props: RenderStationProps) {
             {departures.length > 0 && departures.map((departure, index) => (
               <TableRow
                 key={index}
-                className={"text-4xl " + (index % 2 == 0 ? "" : "bg-blue-800")}
+                className={"text-3xl " + (index % 2 == 0 ? "" : "bg-blue-800")}
               >
                 <TableCell className="p-0 px-4 py-2">
                   {formatVehicleIdentifier(
@@ -96,7 +94,6 @@ export function RenderStation(props: RenderStationProps) {
             ))}
           </TableBody>
         </Table>
-      </div>
     </>
   );
 }

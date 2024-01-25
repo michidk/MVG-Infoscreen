@@ -56,8 +56,8 @@ export default async function Page(props: Props) {
     <div className="w-full h-screen bg-blue-900 text-white p-5">
       {stationInfos.map((station, index) => (
         <div key={index} className="mb-8">
-          <h1 className="text-7xl pb-4">{station.name}</h1>
-          <div className="w-full rounded-lg bg-blue-700 text-5xl">
+          <h1 className="text-6xl pb-4">{station.name}</h1>
+          <div className="w-full bg-blue-700">
             <RenderStation stationId={station.id} />
           </div>
         </div>
