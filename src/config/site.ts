@@ -1,6 +1,6 @@
 export type SiteConfig = typeof siteConfig;
 
-function urlify(url: string | undefined) {
+function urlify(url: string | undefined): string | undefined {
   if (!url) {
     return undefined;
   }
@@ -10,6 +10,10 @@ function urlify(url: string | undefined) {
   return `https://${url}`;
 }
 
+export function getServerUrl(): string {
+  return urlify(process.env.NEXT_PUBLIC_VERCEL_URL) || urlify(process.env.NEXT_PUBLIC_VERCEL_BRANCH_URL) || process.env.NEXT_PUBLIC_URL || "http://localhost:3000";
+}
+
 export const siteConfig = {
   name: "MVG Infoscreen",
   description:
@@ -17,5 +21,5 @@ export const siteConfig = {
   links: {
     github: "https://github.com/michidk/MVG-Infoscreen",
   },
-  url: urlify(process.env.VERCEL_URL) || urlify(process.env.VERCEL_BRANCH_URL) || process.env.URL || "http://localhost:3000",
+  url: getServerUrl(),
 };
