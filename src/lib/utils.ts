@@ -5,7 +5,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export async function fetchWithTimeout(resource: string | URL, options = {}, timeout = 8000) {
+export async function fetchWithTimeout(resource: string | URL, options = {}, timeout = 20000) {
   const controller = new AbortController();
   const id = setTimeout(() => controller.abort(), timeout);
 
