@@ -13,7 +13,7 @@ This project is heavily inspired by [MVGFahrinfo](https://github.com/FaisalBinAh
 
 ## How to use
 
-You can use the webapp deployed to [Vercel](https://vercel.com/dashboard) at [mvg-infoscreen.vercel.app](https://mvg-infoscreen.vercel.app/).
+You can use the web app deployed to [Vercel](https://vercel.com/) at [mvg-infoscreen.vercel.app](https://mvg-infoscreen.vercel.app/).
 
 The root page will show you a user interface to configure the stations you want to display. It generates a URL for you by looking up the IDs of the selected stations.
 

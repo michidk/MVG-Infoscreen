@@ -1,9 +1,6 @@
 export type SiteConfig = typeof siteConfig;
 
-function urlify(url: string | undefined): string | undefined {
-  if (!url) {
-    return undefined;
-  }
+function urlify(url: string): string  {
   if (url.startsWith("http") || url.startsWith("https")) {
     return url;
   }
@@ -11,7 +8,10 @@ function urlify(url: string | undefined): string | undefined {
 }
 
 export function getServerUrl(): string {
-  return urlify(process.env.NEXT_PUBLIC_VERCEL_URL) || urlify(process.env.NEXT_PUBLIC_VERCEL_BRANCH_URL) || process.env.NEXT_PUBLIC_URL || "http://localhost:3000";
+  console.log("NEXT_PUBLIC_VERCEL_URL", process.env.NEXT_PUBLIC_VERCEL_URL);
+  console.log("NEXT_PUBLIC_VERCEL_BRANCH_URL", process.env.NEXT_PUBLIC_VERCEL_BRANCH_URL);
+  console.log("NEXT_PUBLIC_URL", process.env.NEXT_PUBLIC_URL);
+  return urlify(process.env.NEXT_PUBLIC_VERCEL_URL || process.env.NEXT_PUBLIC_VERCEL_BRANCH_URL || process.env.NEXT_PUBLIC_URL || "http://localhost:3000");
 }
 
 export const siteConfig = {
