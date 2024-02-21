@@ -19,11 +19,11 @@ export function getServerUrl(): string {
 }
 
 export const siteConfig = {
-  name: "MVG Infoscreen",
-  description:
-    "A simple infoscreen for the Munich public transport system (MVG).",
-  links: {
-    github: "https://github.com/michidk/MVG-Infoscreen",
-  },
-  url: getServerUrl(),
+	name: "MVG Infoscreen",
+	description:
+		"A simple infoscreen for the Munich public transport system (MVG).",
+	links: {
+		github: "https://github.com/michidk/MVG-Infoscreen",
+	},
+	url: getServerUrl(),
 };
