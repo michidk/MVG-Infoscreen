@@ -1,5 +1,11 @@
 {
-	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
-	"extends": ["config:recommended"],
-	"labels": ["no-stale", "bot", "dependencies"]
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":enableVulnerabilityAlertsWithLabel('security')"
+  ],
+  "labels": [
+    "no-stale",
+    "bot"
+  ]
 }
