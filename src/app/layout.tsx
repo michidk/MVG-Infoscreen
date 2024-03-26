@@ -1,5 +1,5 @@
+import "./globals.css";
 import type { Metadata, Viewport } from "next";
-import "@/styles/globals.css";
 import { Inter as FontSans } from "next/font/google";
 
 import { siteConfig } from "@/config/site";
@@ -35,13 +35,6 @@ export const metadata: Metadata = {
 	},
 };
 
-export const viewport: Viewport = {
-	themeColor: [
-		{ media: "(prefers-color-scheme: light)", color: "white" },
-		{ media: "(prefers-color-scheme: dark)", color: "black" },
-	],
-};
-
 interface RootLayoutProps {
 	children: React.ReactNode;
 }
@@ -52,7 +45,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
 			<head />
 			<body
 				className={cn(
-					"min-h-screen bg-background font-sans antialiased",
+					"min-h-screen h-screen font-sans antialiased",
 					fontSans.variable,
 				)}
 			>
