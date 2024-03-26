@@ -1,0 +1,60 @@
+name: Reviewdog
+
+on:
+  push:
+    branches:
+      - "test"
+  pull_request:
+    types:
+      - "opened"
+      - "synchronize"
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  biome:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Setup bun
+        uses: oven-sh/setup-bun@v1
+
+      - uses: actions/cache@v4
+        env:
+          cache-name: bun-cache
+        with:
+          key: ${{ env.cache-name }}-${{ hashFiles('**/bun.lockb') }}
+          path: ~/.bun/install/cache
+
+      - name: Install dependencies
+        run: bun install
+        env:
+          NPM_STABL_AUTH_TOKEN: ${{ secrets.STABL_ADMIN_PAT || github.token }}
+
+     - uses: mongolyy/reviewdog-action-biome@v1
+        with:
+          reporter: ${{ github.event_name == 'pull_request' && 'github-pr-review' || 'github-check' }}
+
+    typos:
+    name: typos (Spellchecker)
+    runs-on: ubicloud-standard-2-ubuntu-2204
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run typos
+        uses: Shemnei/reviewdog-action-typos@v0
+        with:
+          reporter: ${{ github.event_name == 'pull_request' && 'github-pr-review' || 'github-check' }}
+          fail_on_error: true

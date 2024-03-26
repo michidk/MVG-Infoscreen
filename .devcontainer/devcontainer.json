@@ -2,7 +2,8 @@
   "name": "Node.js & TypeScript",
   "image": "mcr.microsoft.com/devcontainers/typescript-node:1-20-bullseye",
   "features": {
-    "ghcr.io/audacioustux/devcontainers/bun:1": {}
+    "ghcr.io/michidk/devcontainers-features/bun:1": {},
+    "ghcr.io/michidk/devcontainers-features/typos:1": {}
   },
   "customizations": {
     "vscode": {
@@ -10,7 +11,8 @@
         "loiane.ts-extension-pack",
         "oven.bun-vscode",
         "kricsleo.vscode-package-json-inspector",
-        "biomejs.biome"
+        "biomejs.biome",
+        "tekumara.typos-vscode"
       ],
       "settings": {
         "terminal.integrated.defaultProfile": "zsh",
