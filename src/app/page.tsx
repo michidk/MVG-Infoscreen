@@ -1,11 +1,11 @@
 "use server";
 
 import { StationUrl } from "@/components/stationUrl";
-import { type Station, getStations } from "@/lib/stations";
+import { type BasicStationInfo, getStations } from "@/lib/stations";
 
 export default async function Page() {
 	try {
-		const stations: Station[] = await getStations();
+		const stations: BasicStationInfo[] = await getStations();
 
 		return (
 			<>

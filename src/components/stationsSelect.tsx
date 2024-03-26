@@ -18,14 +18,14 @@ import {
 } from "@/components/ui/popover";
 
 import { ScrollArea } from "@/components/ui/scroll-area";
-import type { Station } from "@/lib/stations";
+import type { BasicStationInfo } from "@/lib/stations";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 
 type Props = {
-	availableStations: Station[];
-	selectedStations: Station[];
-	onSelect: (station: Station) => void;
+	availableStations: BasicStationInfo[];
+	selectedStations: BasicStationInfo[];
+	onSelect: (station: BasicStationInfo) => void;
 };
 
 export function StationSelect(props: Props): React.JSX.Element {
@@ -35,9 +35,9 @@ export function StationSelect(props: Props): React.JSX.Element {
 		selectedStations,
 		onSelect,
 	}: {
-		availableStations: Array<Station>;
-		selectedStations: Station[];
-		onSelect: (station: Station) => void;
+		availableStations: Array<BasicStationInfo>;
+		selectedStations: BasicStationInfo[];
+		onSelect: (station: BasicStationInfo) => void;
 	} = props;
 	const [open, setOpen]: [
 		open: boolean,
@@ -48,8 +48,8 @@ export function StationSelect(props: Props): React.JSX.Element {
 		setAllStationsLoaded: React.Dispatch<boolean>,
 	] = useState(false);
 	const [stations, setStations]: [
-		stations: Array<Station>,
-		setStation: React.Dispatch<React.SetStateAction<Array<Station>>>,
+		stations: Array<BasicStationInfo>,
+		setStation: React.Dispatch<React.SetStateAction<Array<BasicStationInfo>>>,
 	] = useState(availableStations.slice(0, maxStationsInitialLoad));
 
 	//runs everytime the dropdown is opened
@@ -103,15 +103,15 @@ export function StationSelect(props: Props): React.JSX.Element {
 								)}
 								<CommandEmpty>No station found.</CommandEmpty>
 								<CommandGroup>
-									{stations.map((station: Station) => (
+									{stations.map((station: BasicStationInfo) => (
 										<CommandItem
 											key={station.id}
 											value={station.name}
 											onSelect={(currentValue: string): void => {
-												const selectedStation: Station | undefined =
+												const selectedStation: BasicStationInfo | undefined =
 													availableStations
 														? availableStations.find(
-																(station: Station): boolean =>
+																(station: BasicStationInfo): boolean =>
 																	station.name.toLowerCase() === currentValue,
 														  )
 														: undefined;
@@ -125,7 +125,7 @@ export function StationSelect(props: Props): React.JSX.Element {
 												className={cn(
 													"mr-2 h-4 w-4",
 													selectedStations.find(
-														(selected: Station): boolean =>
+														(selected: BasicStationInfo): boolean =>
 															selected.id === station.id,
 													)
 														? "opacity-100"

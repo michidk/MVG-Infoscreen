@@ -1,7 +1,7 @@
 "use server";
 
 import { RenderStation } from "@/components/renderStation";
-import { type Station, getStations } from "@/lib/stations";
+import { type BasicStationInfo, getStations } from "@/lib/stations";
 
 type Props = {
 	searchParams: { [key: string]: string | string[] | undefined };
@@ -21,7 +21,7 @@ export default async function Page(props: Props) {
 		return <div>No station provided.</div>;
 	}
 
-	let availableStations: Array<Station> = [];
+	let availableStations: Array<BasicStationInfo> = [];
 	try {
 		availableStations = await getStations();
 	} catch (e) {

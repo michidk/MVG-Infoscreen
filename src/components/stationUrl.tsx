@@ -4,19 +4,21 @@ import { StationSelect } from "@/components/stationsSelect";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { siteConfig } from "@/lib/config";
-import type { Station } from "@/lib/stations";
+import type { BasicStationInfo } from "@/lib/stations";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useState } from "react";
 
 type Props = {
-	stations: Station[];
+	stations: BasicStationInfo[];
 };
 
 export function StationUrl(props: Props) {
 	const { stations } = props;
 
-	const [selectedStations, setSelectedStations] = useState<Station[]>([]);
+	const [selectedStations, setSelectedStations] = useState<BasicStationInfo[]>(
+		[],
+	);
 
 	const url = `${siteConfig.url}/infoscreen?stations=${selectedStations.map(
 		(station) => station.id,
