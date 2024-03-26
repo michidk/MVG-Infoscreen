@@ -1,7 +1,5 @@
 import { fetchWithTimeout } from "./utils";
 
-const API_TIMEOUT = 1000 * 2;
-
 export type Station = {
 	name: string;
 	id: string;
@@ -10,7 +8,6 @@ export async function getStations() {
 	const response = await fetchWithTimeout(
 		"https://www.mvg.de/.rest/zdm/stations",
 		{},
-		API_TIMEOUT,
 	);
 
 	console.log("Stations status", response.status);

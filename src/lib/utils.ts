@@ -8,7 +8,7 @@ export function cn(...inputs: ClassValue[]) {
 export async function fetchWithTimeout(
 	resource: string | URL,
 	options = {},
-	timeout = 20000,
+	timeout = 1000 * 20,
 ) {
 	const controller = new AbortController();
 	const id = setTimeout(() => controller.abort(), timeout);

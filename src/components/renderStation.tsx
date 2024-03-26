@@ -1,16 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Table, TableBody, TableCell, TableHeader, TableRow } from "./ui/table";
-import { fetchWithTimeout } from "@/lib/utils";
+import { Table, TableBody, TableCell, TableRow } from "./ui/table";
+import { getDepartures } from "@/app/infoscreen/actions";
 
 type RenderStationProps = {
 	stationId: string;
 };
 
 const ENTRIES = 8;
-const REFRESH_INTERVAL = 1000 * 3; // 3 seconds
-const API_TIMEOUT = 1000 * 2; // 2 seconds
+const REFRESH_INTERVAL = 1000 * 15; // 15 seconds
 
 export function RenderStation(props: RenderStationProps) {
 	const { stationId } = props;
@@ -20,32 +19,7 @@ export function RenderStation(props: RenderStationProps) {
 	useEffect(() => {
 		const fetchStations = async () => {
 			try {
-				const response: any = await fetchWithTimeout(
-					`https://www.mvg.de/api/fib/v2/departure?globalId=${stationId}`,
-					{},
-					API_TIMEOUT,
-				);
-				if (response.status !== 200) {
-					throw new Error("Could not get departures");
-				}
-				let departures = (await response.json()) as Array<any>;
-				console.log("Loaded departures:", departures.length);
-
-				departures = departures.sort(
-					(a, b) => a.realtimeDepartureTime - b.realtimeDepartureTime,
-				);
-
-				// Filter out departures that are more than 10 minutes in the past
-				const time = Date.now();
-				departures = departures.filter(
-					(departure) =>
-						(departure.realtimeDepartureTime - time) / (1000 * 60) > -10,
-				);
-
-				// Slice to get the first couple entries
-				departures = departures.slice(0, ENTRIES);
-
-				setDepartures(departures);
+				setDepartures(await getDepartures(stationId, ENTRIES));
 			} catch (error: any) {
 				if (error.code === "ECONNABORTED") {
 					console.error("Request to `/departure` timed out");
