@@ -1,7 +1,7 @@
 "use client";
 
-import * as React from "react";
 import { Check, ChevronsUpDown } from "lucide-react";
+import * as React from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -17,10 +17,10 @@ import {
 	PopoverTrigger,
 } from "@/components/ui/popover";
 
-import { useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import type { Station } from "@/lib/stations";
 import { cn } from "@/lib/utils";
-import { Station } from "@/lib/stations";
+import { useState } from "react";
 
 type Props = {
 	availableStations: Station[];
@@ -31,8 +31,8 @@ type Props = {
 export function StationSelect(props: Props): React.JSX.Element {
 	const maxStationsInitialLoad: number = 500;
 	const {
-		availableStations: availableStations,
-		selectedStations: selectedStations,
+		availableStations,
+		selectedStations,
 		onSelect,
 	}: {
 		availableStations: Array<Station>;
@@ -57,7 +57,7 @@ export function StationSelect(props: Props): React.JSX.Element {
 		if (!availableStations) return;
 		setAllStationsLoaded(false);
 		setStations(availableStations.slice(0, maxStationsInitialLoad));
-	}, [open]);
+	}, [availableStations]);
 
 	let boxLabel: string;
 	if (selectedStations.length === 0) {
@@ -126,7 +126,7 @@ export function StationSelect(props: Props): React.JSX.Element {
 													"mr-2 h-4 w-4",
 													selectedStations.find(
 														(selected: Station): boolean =>
-															selected.id == station.id,
+															selected.id === station.id,
 													)
 														? "opacity-100"
 														: "opacity-0",

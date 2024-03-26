@@ -1,8 +1,9 @@
 "use client";
 
+import { getRecentDepartures } from "@/app/infoscreen/actions";
+import type { Departure } from "@/lib/departures";
 import { useEffect, useState } from "react";
 import { Table, TableBody, TableCell, TableRow } from "./ui/table";
-import { getDepartures } from "@/app/infoscreen/actions";
 
 type RenderStationProps = {
 	stationId: string;
@@ -14,13 +15,14 @@ const REFRESH_INTERVAL = 1000 * 15; // 15 seconds
 export function RenderStation(props: RenderStationProps) {
 	const { stationId } = props;
 
-	const [departures, setDepartures] = useState<any[]>([]);
+	const [departures, setDepartures] = useState<Departure[]>([]);
 
 	useEffect(() => {
 		const fetchStations = async () => {
 			try {
-				setDepartures(await getDepartures(stationId, ENTRIES));
-			} catch (error: any) {
+				setDepartures(await getRecentDepartures(stationId, ENTRIES));
+			} catch (e) {
+				const error = e as { code: string; message: string };
 				if (error.code === "ECONNABORTED") {
 					console.error("Request to `/departure` timed out");
 				} else {
@@ -52,8 +54,8 @@ export function RenderStation(props: RenderStationProps) {
 					{departures.length > 0 &&
 						departures.map((departure, index) => (
 							<TableRow
-								key={index}
-								className={"text-3xl " + (index % 2 == 0 ? "" : "bg-blue-800")}
+								key={departure.label}
+								className={`text-3xl ${index % 2 === 0 ? "" : "bg-blue-800"}`}
 							>
 								<TableCell className="p-0 px-4 py-2">
 									{formatVehicleIdentifier(
@@ -188,9 +190,6 @@ function formatVehicleIdentifier(type: string, label: string) {
 				case "27":
 				case "28":
 					bgColor = "#f5a21e";
-					break;
-				case "19":
-					bgColor = "#000000";
 					break;
 			}
 			return (

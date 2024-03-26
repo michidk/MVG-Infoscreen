@@ -1,7 +1,7 @@
 "use server";
 
-import { getStations, Station } from "@/lib/stations";
 import { StationUrl } from "@/components/stationUrl";
+import { type Station, getStations } from "@/lib/stations";
 
 export default async function Page() {
 	try {
@@ -13,11 +13,12 @@ export default async function Page() {
 				<StationUrl stations={stations} />
 			</>
 		);
-	} catch (e: any) {
+	} catch (e) {
+		const error = e as { message: string };
 		return (
 			<>
 				<div>Could not load stations.</div>
-				<div>{e.message}</div>
+				<div>{error.message}</div>
 			</>
 		);
 	}

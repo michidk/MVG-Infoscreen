@@ -1,24 +1,12 @@
 "use server";
 
-import { fetchWithTimeout } from "@/lib/utils";
+import { type Departure, getDepartures } from "@/lib/departures";
 
-export async function getDepartures(
+export async function getRecentDepartures(
 	stationId: string,
 	entries: number,
-): Promise<any[]> {
-	const response = await fetchWithTimeout(
-		`https://www.mvg.de/api/fib/v2/departure?globalId=${stationId}`,
-		{},
-		10 * 1000,
-	);
-	if (response.status !== 200) {
-		throw new Error("Could not get departures");
-	}
-	let departures = (await response.json()) as Array<any>;
-
-	departures = departures.sort(
-		(a, b) => a.realtimeDepartureTime - b.realtimeDepartureTime,
-	);
+): Promise<Departure[]> {
+	let departures = await getDepartures(stationId);
 
 	// Filter out departures that are more than 10 minutes in the past
 	const time = Date.now();

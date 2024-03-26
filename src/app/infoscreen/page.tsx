@@ -1,7 +1,7 @@
 "use server";
 
 import { RenderStation } from "@/components/renderStation";
-import { Station, getStations } from "@/lib/stations";
+import { type Station, getStations } from "@/lib/stations";
 
 type Props = {
 	searchParams: { [key: string]: string | string[] | undefined };
@@ -15,20 +15,21 @@ export default async function Page(props: Props) {
 		return <div>No station provided.</div>;
 	}
 
-	let stations: string[] = stationsParam.split(",");
+	const stations: string[] = stationsParam.split(",");
 
-	if (stations.length == 0) {
+	if (stations.length === 0) {
 		return <div>No station provided.</div>;
 	}
 
 	let availableStations: Array<Station> = [];
 	try {
 		availableStations = await getStations();
-	} catch (e: any) {
+	} catch (e) {
+		const error = e as { message: string };
 		return (
 			<>
 				<div>Could not load stations.</div>
-				<div>{e.message}</div>
+				<div>{error.message}</div>
 			</>
 		);
 	}
@@ -50,12 +51,12 @@ export default async function Page(props: Props) {
 
 	const stationInfos = availableStations.filter((station) =>
 		stations.includes(station.id),
-	)!;
+	);
 
 	return (
 		<div className="w-full h-screen bg-blue-900 text-white p-5">
-			{stationInfos.map((station, index) => (
-				<div key={index} className="mb-8">
+			{stationInfos.map((station) => (
+				<div key={station.id} className="mb-8">
 					<h1 className="text-6xl pb-4">{station.name}</h1>
 					<div className="w-full bg-blue-700">
 						<RenderStation stationId={station.id} />

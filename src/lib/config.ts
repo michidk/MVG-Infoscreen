@@ -13,8 +13,8 @@ function getServerUrl(): string {
 			"http://localhost:3000",
 	);
 }
-export type SiteConfig = typeof site;
-export const site = {
+export type SiteConfig = typeof siteConfig;
+export const siteConfig = {
 	name: "MVG Infoscreen",
 	description:
 		"A simple infoscreen for the Munich public transport system (MVG).",

@@ -1,13 +1,13 @@
 "use client";
 
 import { StationSelect } from "@/components/stationsSelect";
-import { useState } from "react";
-import { Input } from "@/components/ui/input";
 import { Button, buttonVariants } from "@/components/ui/button";
-import Link from "next/link";
-import { siteConfig } from "@/config/site";
-import { Station } from "@/lib/stations";
+import { Input } from "@/components/ui/input";
+import { siteConfig } from "@/lib/config";
+import type { Station } from "@/lib/stations";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
+import { useState } from "react";
 
 type Props = {
 	stations: Station[];

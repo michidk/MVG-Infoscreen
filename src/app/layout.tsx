@@ -1,8 +1,8 @@
-import "./globals.css";
-import type { Metadata, Viewport } from "next";
+import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
+import "./globals.css";
 
-import { siteConfig } from "@/config/site";
+import { siteConfig } from "@/lib/config";
 import { cn } from "@/lib/utils";
 
 const fontSans = FontSans({

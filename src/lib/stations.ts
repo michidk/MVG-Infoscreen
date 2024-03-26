@@ -1,10 +1,13 @@
 import { fetchWithTimeout } from "./utils";
 
-export type Station = {
+export interface Station {
 	name: string;
 	id: string;
-};
-export async function getStations() {
+	products: Array<string>;
+	tariffZones: Array<string>;
+}
+
+export async function getStations(): Promise<Station[]> {
 	const response = await fetchWithTimeout(
 		"https://www.mvg.de/.rest/zdm/stations",
 		{},
@@ -15,7 +18,7 @@ export async function getStations() {
 		throw new Error("Could not get stations");
 	}
 
-	const stations: Array<any> = await response.json();
+	const stations = (await response.json()) as Array<Station>;
 
 	return stations
 		.filter(
