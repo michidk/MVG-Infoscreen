@@ -39,8 +39,6 @@ jobs:
 
       - name: Install dependencies
         run: bun install
-        env:
-          NPM_STABL_AUTH_TOKEN: ${{ secrets.STABL_ADMIN_PAT || github.token }}
 
       - uses: mongolyy/reviewdog-action-biome@v1
         with:
