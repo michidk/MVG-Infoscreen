@@ -2,21 +2,15 @@
   "name": "Node.js & TypeScript",
   "image": "mcr.microsoft.com/devcontainers/typescript-node:1-20-bullseye",
   "features": {
-    "ghcr.io/devcontainers-contrib/features/prettier:1": {},
-    "ghcr.io/audacioustux/devcontainers/bun:1": {},
-    "ghcr.io/guiyomh/features/just:0": {},
-    // "ghcr.io/meaningful-ooo/devcontainer-features/homebrew:2": {},
-    "ghcr.io/devcontainers/features/docker-in-docker:2": {},
-    "ghcr.io/jckimble/devcontainer-features/ngrok:3": {}
+    "ghcr.io/audacioustux/devcontainers/bun:1": {}
   },
   "customizations": {
     "vscode": {
       "extensions": [
         "loiane.ts-extension-pack",
-        "esbenp.prettier-vscode",
-        "kokakiwi.vscode-just",
         "oven.bun-vscode",
-        "kricsleo.vscode-package-json-inspector"
+        "kricsleo.vscode-package-json-inspector",
+        "biomejs.biome"
       ],
       "settings": {
         "terminal.integrated.defaultProfile": "zsh",

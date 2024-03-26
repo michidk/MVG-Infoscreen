@@ -8,9 +8,9 @@ function urlify(url: string): string {
 function getServerUrl(): string {
 	return urlify(
 		process.env.NEXT_PUBLIC_SITE_URL ||
-		process.env.NEXT_PUBLIC_VERCEL_URL ||
-		process.env.NEXT_PUBLIC_VERCEL_BRANCH_URL ||
-		"http://localhost:3000",
+			process.env.NEXT_PUBLIC_VERCEL_URL ||
+			process.env.NEXT_PUBLIC_VERCEL_BRANCH_URL ||
+			"http://localhost:3000",
 	);
 }
 export type SiteConfig = typeof site;
