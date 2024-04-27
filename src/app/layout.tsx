@@ -35,11 +35,9 @@ export const metadata: Metadata = {
 	},
 };
 
-interface RootLayoutProps {
-	children: React.ReactNode;
-}
-
-export default async function RootLayout({ children }: RootLayoutProps) {
+export default async function RootLayout({
+	children,
+}: { children: React.ReactNode }) {
 	return (
 		<html lang="en">
 			<head />

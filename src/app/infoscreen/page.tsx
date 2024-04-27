@@ -54,7 +54,7 @@ export default async function Page(props: Props) {
 	);
 
 	return (
-		<div className="w-full h-screen bg-blue-900 text-white p-5">
+		<>
 			{stationInfos.map((station) => (
 				<div key={station.id} className="mb-8">
 					<h1 className="text-6xl pb-4">{station.name}</h1>
@@ -63,6 +63,6 @@ export default async function Page(props: Props) {
 					</div>
 				</div>
 			))}
-		</div>
+		</>
 	);
 }
