@@ -4,11 +4,11 @@ import { RenderStation } from "@/components/renderStation";
 import { type BasicStationInfo, getStations } from "@/lib/stations";
 
 type Props = {
-	searchParams: { [key: string]: string | string[] | undefined };
+	searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
 export default async function Page(props: Props) {
-	const searchParams = props.searchParams;
+	const searchParams = await props.searchParams;
 	const stationsParam = searchParams.stations as string;
 
 	if (!stationsParam) {

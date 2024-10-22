@@ -30,9 +30,9 @@ export async function getStations(): Promise<BasicStationInfo[]> {
 		)
 		.map(
 			(station) =>
-				({
-					name: station.name,
-					id: station.id,
-				}) as BasicStationInfo,
+				(({
+                    name: station.name,
+                    id: station.id
+                }) as BasicStationInfo),
 		);
 }
