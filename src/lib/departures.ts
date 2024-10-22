@@ -9,7 +9,7 @@ export interface Departure {
 
 export async function getDepartures(stationId: string): Promise<Departure[]> {
 	const response = await fetchWithTimeout(
-		`https://www.mvg.de/api/fib/v2/departure?globalId=${stationId}`,
+		`https://www.mvg.de/api/bgw-pt/v3/departures?globalId=${stationId}&limit=100&transportTypes=UBAHN,REGIONAL_BUS,BUS,TRAM,SBAHN`,
 		{},
 		10 * 1000,
 	);
