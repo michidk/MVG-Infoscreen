@@ -22,7 +22,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "cmdk": "^0.2.1",
-    "lucide-react": "^0.453.0",
+    "lucide-react": "^0.474.0",
     "next": "15.0.0",
     "next-themes": "^0.3.0",
     "react": "19.0.0-rc-fb9a90fa48-20240614",
