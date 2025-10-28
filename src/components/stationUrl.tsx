@@ -66,9 +66,7 @@ export function StationUrl(props: Props) {
 	};
 
 	const handleSelect = (selectedStation: BasicStationInfo) => {
-		if (
-			selectedStations.find((station) => station.id === selectedStation.id)
-		) {
+		if (selectedStations.find((station) => station.id === selectedStation.id)) {
 			handleRemoveStation(selectedStation.id);
 		} else {
 			setSelectedStations([...selectedStations, selectedStation]);
@@ -88,7 +86,7 @@ export function StationUrl(props: Props) {
 					{/* Station Selection */}
 					<div className="space-y-3">
 						<div className="flex items-center justify-between">
-							<label className="text-sm font-medium">Select Stations</label>
+							<div className="text-sm font-medium">Select Stations</div>
 							{selectedStations.length > 0 && (
 								<Button
 									variant="ghost"
@@ -111,9 +109,9 @@ export function StationUrl(props: Props) {
 					{/* Selected Stations Display */}
 					{selectedStations.length > 0 ? (
 						<div className="space-y-3">
-							<label className="text-sm font-medium">
+							<div className="text-sm font-medium">
 								Selected Stations ({selectedStations.length})
-							</label>
+							</div>
 							<div className="flex flex-wrap gap-2 p-4 bg-muted rounded-lg min-h-[60px]">
 								{selectedStations.map((station) => (
 									<Badge
@@ -146,7 +144,7 @@ export function StationUrl(props: Props) {
 					{/* URL Display */}
 					{active && (
 						<div className="space-y-3">
-							<label className="text-sm font-medium">Generated URL</label>
+							<div className="text-sm font-medium">Generated URL</div>
 							<div className="flex gap-2">
 								<Input
 									value={url}
@@ -226,7 +224,9 @@ export function StationUrl(props: Props) {
 				<CardContent className="space-y-2 text-sm text-muted-foreground">
 					<ol className="list-decimal list-inside space-y-1">
 						<li>Select one or more stations from the dropdown menu above</li>
-						<li>The URL will be automatically generated as you select stations</li>
+						<li>
+							The URL will be automatically generated as you select stations
+						</li>
 						<li>
 							Copy the URL or scan the QR code to access your custom infoscreen
 						</li>
