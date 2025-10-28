@@ -1,5 +1,5 @@
-import { Badge } from "@/components/ui/badge";
 import { Bus, Train } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 type Props = {
 	products: string[];
