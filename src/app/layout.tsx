@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
 import "./globals.css";
 
+import { Providers } from "@/components/providers";
 import { siteConfig } from "@/lib/config";
 import { cn } from "@/lib/utils";
 
@@ -49,7 +50,7 @@ export default async function RootLayout({
 					fontSans.variable,
 				)}
 			>
-				{children}
+				<Providers>{children}</Providers>
 			</body>
 		</html>
 	);
