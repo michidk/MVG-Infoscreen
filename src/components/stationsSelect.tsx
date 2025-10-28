@@ -78,7 +78,7 @@ export function StationSelect(props: Props) {
 									>
 										<div className="flex items-center w-full gap-3">
 											<div
-												className={`flex items-center justify-center w-4 h-4 shrink-0 border rounded-sm ${
+												className={`flex items-center justify-center w-4 h-4 shrink-0 border rounded-full ${
 													isSelected(station.id)
 														? "bg-primary border-primary"
 														: "border-input"
