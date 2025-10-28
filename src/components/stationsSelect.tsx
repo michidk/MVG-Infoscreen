@@ -1,26 +1,12 @@
 "use client";
 
-import { Check, ChevronsUpDown } from "lucide-react";
-import * as React from "react";
-
+import { TransportBadges } from "@/components/transportBadges";
 import { Button } from "@/components/ui/button";
-import {
-	Command,
-	CommandEmpty,
-	CommandGroup,
-	CommandInput,
-	CommandItem,
-} from "@/components/ui/command";
-import {
-	Popover,
-	PopoverContent,
-	PopoverTrigger,
-} from "@/components/ui/popover";
-
+import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import type { BasicStationInfo } from "@/lib/stations";
-import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { Check, Search } from "lucide-react";
+import { useMemo, useState } from "react";
 
 type Props = {
 	availableStations: BasicStationInfo[];
@@ -28,119 +14,107 @@ type Props = {
 	onSelect: (station: BasicStationInfo) => void;
 };
 
-export function StationSelect(props: Props): React.JSX.Element {
-	const maxStationsInitialLoad: number = 500;
-	const {
-		availableStations,
-		selectedStations,
-		onSelect,
-	}: {
-		availableStations: Array<BasicStationInfo>;
-		selectedStations: BasicStationInfo[];
-		onSelect: (station: BasicStationInfo) => void;
-	} = props;
-	const [open, setOpen]: [
-		open: boolean,
-		setOpen: React.Dispatch<React.SetStateAction<boolean>>,
-	] = useState(false);
-	const [allStationsLoaded, setAllStationsLoaded]: [
-		allStationsLoaded: boolean,
-		setAllStationsLoaded: React.Dispatch<boolean>,
-	] = useState(false);
-	const [stations, setStations]: [
-		stations: Array<BasicStationInfo>,
-		setStation: React.Dispatch<React.SetStateAction<Array<BasicStationInfo>>>,
-	] = useState(availableStations.slice(0, maxStationsInitialLoad));
+export function StationSelect(props: Props) {
+	const { availableStations, selectedStations, onSelect } = props;
+	const [searchQuery, setSearchQuery] = useState("");
+	const [isFocused, setIsFocused] = useState(false);
 
-	//runs everytime the dropdown is opened
-	React.useEffect((): void => {
-		if (!availableStations) return;
-		setAllStationsLoaded(false);
-		setStations(availableStations.slice(0, maxStationsInitialLoad));
-	}, [availableStations]);
+	// Filter stations based on search query
+	const filteredStations = useMemo(() => {
+		if (!searchQuery.trim()) {
+			// When no search query, show only first 50 stations
+			return availableStations.slice(0, 50);
+		}
 
-	let boxLabel: string;
-	if (selectedStations.length === 0) {
-		boxLabel = "Select station...";
-	} else if (selectedStations.length === 1) {
-		boxLabel = selectedStations[0].name;
-	} else {
-		boxLabel = "...";
-	}
+		const query = searchQuery.toLowerCase();
+		const results = availableStations.filter((station) =>
+			station.name.toLowerCase().includes(query),
+		);
+
+		// Limit to 100 results for performance
+		return results.slice(0, 100);
+	}, [searchQuery, availableStations]);
+
+	const showResults = isFocused && searchQuery.trim().length > 0;
+	const hasResults = filteredStations.length > 0;
+
+	const isSelected = (stationId: string) => {
+		return selectedStations.some((station) => station.id === stationId);
+	};
 
 	return (
-		<>
-			<>
-				<Popover open={open} onOpenChange={setOpen}>
-					<PopoverTrigger asChild>
-						<Button
-							variant="outline"
-							role="combobox"
-							aria-expanded={open}
-							className="w-[200px] justify-between"
-						>
-							{boxLabel}
-							<ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-						</Button>
-					</PopoverTrigger>
-					<PopoverContent className="w-[200px] p-0">
-						<Command>
-							<CommandInput placeholder="Search station..." />
-							<ScrollArea className="h-96">
-								{allStationsLoaded ? (
-									<></>
-								) : (
+		<div className="relative w-full">
+			<div className="relative">
+				<Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+				<Input
+					type="text"
+					placeholder="Search for a station... (e.g., Marienplatz, Hauptbahnhof)"
+					value={searchQuery}
+					onChange={(e) => setSearchQuery(e.target.value)}
+					onFocus={() => setIsFocused(true)}
+					onBlur={() => {
+						// Delay to allow click on results
+						setTimeout(() => setIsFocused(false), 200);
+					}}
+					className="pl-10"
+				/>
+			</div>
+
+			{/* Search Results Dropdown */}
+			{showResults && (
+				<div className="absolute z-50 w-full mt-2 bg-popover border rounded-lg shadow-lg">
+					{hasResults ? (
+						<ScrollArea className="h-[300px]">
+							<div className="p-2 space-y-1">
+								{filteredStations.map((station) => (
 									<Button
-										variant="outline"
-										className="w-full justify-center"
+										key={station.id}
+										variant="ghost"
+										className="w-full justify-start text-left font-normal h-auto py-2 px-3"
 										onClick={() => {
-											setStations(availableStations);
-											setAllStationsLoaded(true);
+											onSelect(station);
+											setSearchQuery("");
 										}}
 									>
-										Load All Stations...
-									</Button>
-								)}
-								<CommandEmpty>No station found.</CommandEmpty>
-								<CommandGroup>
-									{stations.map((station: BasicStationInfo) => (
-										<CommandItem
-											key={station.id}
-											value={station.name}
-											onSelect={(currentValue: string): void => {
-												const selectedStation: BasicStationInfo | undefined =
-													availableStations
-														? availableStations.find(
-																(station: BasicStationInfo): boolean =>
-																	station.name.toLowerCase() === currentValue,
-														  )
-														: undefined;
-
-												setOpen(false);
-												setAllStationsLoaded(false);
-												if (selectedStation) onSelect(selectedStation);
-											}}
-										>
-											<Check
-												className={cn(
-													"mr-2 h-4 w-4",
-													selectedStations.find(
-														(selected: BasicStationInfo): boolean =>
-															selected.id === station.id,
-													)
-														? "opacity-100"
-														: "opacity-0",
+										<div className="flex items-center w-full gap-3">
+											<div
+												className={`flex items-center justify-center w-4 h-4 shrink-0 border rounded-sm ${
+													isSelected(station.id)
+														? "bg-primary border-primary"
+														: "border-input"
+												}`}
+											>
+												{isSelected(station.id) && (
+													<Check className="h-3 w-3 text-primary-foreground" />
 												)}
-											/>
-											{station.name}
-										</CommandItem>
-									))}
-								</CommandGroup>
-							</ScrollArea>
-						</Command>
-					</PopoverContent>
-				</Popover>
-			</>
-		</>
+											</div>
+											<span className="flex-1 text-left">{station.name}</span>
+											<TransportBadges products={station.products} size="sm" />
+										</div>
+									</Button>
+								))}
+							</div>
+						</ScrollArea>
+					) : (
+						<div className="p-4 text-center text-sm text-muted-foreground">
+							No stations found matching "{searchQuery}"
+						</div>
+					)}
+
+					{hasResults && filteredStations.length === 100 && (
+						<div className="p-2 text-xs text-center text-muted-foreground border-t bg-muted/30">
+							Showing first 100 results. Refine your search for more specific
+							results.
+						</div>
+					)}
+				</div>
+			)}
+
+			{/* Helper text */}
+			<p className="mt-2 text-xs text-muted-foreground">
+				{availableStations.length.toLocaleString()} stations available. Start
+				typing to search.
+			</p>
+		</div>
 	);
 }
