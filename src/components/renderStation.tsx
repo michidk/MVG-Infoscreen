@@ -154,7 +154,7 @@ function formatVehicleIdentifier(type: string, label: string) {
 
 			return (
 				<div
-					className="w-fit px-4"
+					className="rounded-full w-fit px-4"
 					style={{ backgroundColor: bgColor, color: fgColor }}
 				>
 					{label}
@@ -199,7 +199,7 @@ function formatVehicleIdentifier(type: string, label: string) {
 			}
 			return (
 				<div
-					className="w-fit px-4"
+					className="rounded-full w-fit px-4"
 					style={{ backgroundColor: bgColor, color: fgColor }}
 				>
 					{label}
@@ -209,7 +209,7 @@ function formatVehicleIdentifier(type: string, label: string) {
 		case "BUS": {
 			return (
 				<div
-					className="w-fit px-4"
+					className="rounded-full w-fit px-4"
 					style={{ backgroundColor: "#f99f1f", color: "#ffffff" }}
 				>
 					{label}
