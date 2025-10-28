@@ -16,7 +16,7 @@ jobs:
       pull-requests: write
     steps:
         # https://github.com/actions/stale
-        - uses: actions/stale@v9
+        - uses: actions/stale@v10
           with:
             repo-token: ${{ secrets.GITHUB_TOKEN }}
             days-before-stale: 14
