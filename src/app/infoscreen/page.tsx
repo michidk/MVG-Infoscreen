@@ -42,11 +42,7 @@ export default async function Page(props: Props) {
 				),
 		)
 	) {
-		return (
-			<>
-				<div>Invalid station provided.</div>
-			</>
-		);
+		return <div>Invalid station provided.</div>;
 	}
 
 	const stationInfos = availableStations.filter((station) =>

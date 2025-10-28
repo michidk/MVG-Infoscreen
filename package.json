@@ -1,44 +1,44 @@
 {
-  "name": "mvg-infoscreen",
-  "description": "A simple infoscreen for the Munich public transport system (MVG).",
-  "version": "0.1.0",
-  "license": "MIT",
-  "module": "es2022",
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "bunx @biomejs/biome lint ./src",
-    "fmt": "bunx @biomejs/biome format --write ./src *.js *.ts *.json",
-    "fix": "bunx @biomejs/biome check --apply ./src *.js *.ts *.json",
-    "unsafe": "bunx @biomejs/biome check --apply-unsafe ./src *js *.ts *.json"
-  },
-  "dependencies": {
-    "@radix-ui/react-dialog": "^1.1.15",
-    "@radix-ui/react-dropdown-menu": "^2.1.16",
-    "@radix-ui/react-popover": "^1.1.15",
-    "@radix-ui/react-scroll-area": "^1.2.10",
-    "@radix-ui/react-slot": "^1.2.3",
-    "class-variance-authority": "^0.7.1",
-    "clsx": "^2.1.1",
-    "cmdk": "^1.1.1",
-    "lucide-react": "^0.548.0",
-    "next": "^16.0.1",
-    "next-themes": "^0.4.6",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0",
-    "tailwind-merge": "^3.3.1",
-    "tailwindcss-animate": "^1.0.7"
-  },
-  "devDependencies": {
-    "@biomejs/biome": "^2.3.2",
-    "@types/node": "^22.10.0",
-    "@types/react": "^19.0.6",
-    "@types/react-dom": "^19.0.4",
-    "autoprefixer": "^10.4.21",
-    "dotenv": "^17.0.0",
-    "postcss": "^8.5.6",
-    "tailwindcss": "^3.4.18",
-    "typescript": "^5.7.2"
-  }
+	"name": "mvg-infoscreen",
+	"description": "A simple infoscreen for the Munich public transport system (MVG).",
+	"version": "0.1.0",
+	"license": "MIT",
+	"module": "es2022",
+	"scripts": {
+		"dev": "next dev",
+		"build": "next build",
+		"start": "next start",
+		"lint": "bunx @biomejs/biome lint ./src",
+		"fmt": "bunx @biomejs/biome format --write ./src *.js *.ts *.json",
+		"fix": "bunx @biomejs/biome check --apply ./src *.js *.ts *.json",
+		"unsafe": "bunx @biomejs/biome check --apply-unsafe ./src *js *.ts *.json"
+	},
+	"dependencies": {
+		"@radix-ui/react-dialog": "^1.1.15",
+		"@radix-ui/react-dropdown-menu": "^2.1.16",
+		"@radix-ui/react-popover": "^1.1.15",
+		"@radix-ui/react-scroll-area": "^1.2.10",
+		"@radix-ui/react-slot": "^1.2.3",
+		"class-variance-authority": "^0.7.1",
+		"clsx": "^2.1.1",
+		"cmdk": "^1.1.1",
+		"lucide-react": "^0.548.0",
+		"next": "^16.0.1",
+		"next-themes": "^0.4.6",
+		"react": "^19.2.0",
+		"react-dom": "^19.2.0",
+		"tailwind-merge": "^3.3.1",
+		"tailwindcss-animate": "^1.0.7"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.3.2",
+		"@types/node": "^22.10.0",
+		"@types/react": "^19.0.6",
+		"@types/react-dom": "^19.0.4",
+		"autoprefixer": "^10.4.21",
+		"dotenv": "^17.0.0",
+		"postcss": "^8.5.6",
+		"tailwindcss": "^3.4.18",
+		"typescript": "^5.7.2"
+	}
 }

@@ -1,0 +1,72 @@
+{
+	"$schema": "https://biomejs.dev/schemas/2.3.2/schema.json",
+	"vcs": {
+		"enabled": true,
+		"clientKind": "git",
+		"useIgnoreFile": true
+	},
+	"files": {
+		"ignoreUnknown": false,
+		"includes": [
+			"**",
+			"!**/node_modules",
+			"!**/.next",
+			"!**/out",
+			"!**/dist",
+			"!**/build",
+			"!**/.env",
+			"!**/.env.*"
+		]
+	},
+	"formatter": {
+		"enabled": true,
+		"indentStyle": "tab",
+		"indentWidth": 2,
+		"lineWidth": 80
+	},
+	"assist": { "actions": { "source": { "organizeImports": "on" } } },
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"recommended": true,
+			"complexity": {
+				"noUselessFragments": "error"
+			},
+			"performance": {
+				"noImgElement": "error"
+			},
+			"suspicious": {
+				"noUnknownAtRules": "off"
+			}
+		}
+	},
+	"javascript": {
+		"formatter": {
+			"quoteStyle": "double",
+			"jsxQuoteStyle": "double",
+			"trailingCommas": "all",
+			"semicolons": "always"
+		}
+	},
+	"css": {
+		"parser": {
+			"cssModules": false,
+			"allowWrongLineComments": true,
+			"tailwindDirectives": true
+		},
+		"linter": {
+			"enabled": false
+		}
+	},
+	"overrides": [
+		{
+			"includes": ["**/*.css"],
+			"linter": {
+				"enabled": false
+			},
+			"formatter": {
+				"enabled": false
+			}
+		}
+	]
+}

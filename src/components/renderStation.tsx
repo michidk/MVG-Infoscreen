@@ -1,8 +1,8 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { getRecentDepartures } from "@/app/infoscreen/actions";
 import type { Departure } from "@/lib/departures";
-import { useEffect, useState } from "react";
 import { Table, TableBody, TableCell, TableRow } from "./ui/table";
 
 type RenderStationProps = {
@@ -43,37 +43,35 @@ export function RenderStation(props: RenderStationProps) {
 	}, [stationId]);
 
 	return (
-		<>
-			<Table className="overflow-hidden">
-				<TableBody>
-					{departures.length === 0 && (
-						<TableRow className="text-3xl">
-							<TableCell className="p-0 px-4 py-2">No departures</TableCell>
+		<Table className="overflow-hidden">
+			<TableBody>
+				{departures.length === 0 && (
+					<TableRow className="text-3xl">
+						<TableCell className="p-0 px-4 py-2">No departures</TableCell>
+					</TableRow>
+				)}
+				{departures.length > 0 &&
+					departures.map((departure, index) => (
+						<TableRow
+							key={departure.label}
+							className={`text-3xl ${index % 2 === 0 ? "" : "bg-blue-800"}`}
+						>
+							<TableCell className="p-0 px-4 py-2">
+								{formatVehicleIdentifier(
+									departure.transportType,
+									departure.label,
+								)}
+							</TableCell>
+							<TableCell className="p-0 px-4">
+								{departure.destination}
+							</TableCell>
+							<TableCell className="p-0 px-4">
+								{formatDepartureTime(departure.realtimeDepartureTime)}
+							</TableCell>
 						</TableRow>
-					)}
-					{departures.length > 0 &&
-						departures.map((departure, index) => (
-							<TableRow
-								key={departure.label}
-								className={`text-3xl ${index % 2 === 0 ? "" : "bg-blue-800"}`}
-							>
-								<TableCell className="p-0 px-4 py-2">
-									{formatVehicleIdentifier(
-										departure.transportType,
-										departure.label,
-									)}
-								</TableCell>
-								<TableCell className="p-0 px-4">
-									{departure.destination}
-								</TableCell>
-								<TableCell className="p-0 px-4">
-									{formatDepartureTime(departure.realtimeDepartureTime)}
-								</TableCell>
-							</TableRow>
-						))}
-				</TableBody>
-			</Table>
-		</>
+					))}
+			</TableBody>
+		</Table>
 	);
 }
 

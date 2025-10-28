@@ -1,5 +1,15 @@
 "use client";
 
+import {
+	CheckCircle2,
+	Copy,
+	ExternalLink,
+	QrCode,
+	Trash2,
+	X,
+} from "lucide-react";
+import Image from "next/image";
+import { useEffect, useState } from "react";
 import { StationSelect } from "@/components/stationsSelect";
 import { TransportBadges } from "@/components/transportBadges";
 import { Button } from "@/components/ui/button";
@@ -13,15 +23,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { siteConfig } from "@/lib/config";
 import type { BasicStationInfo } from "@/lib/stations";
-import {
-	CheckCircle2,
-	Copy,
-	ExternalLink,
-	QrCode,
-	Trash2,
-	X,
-} from "lucide-react";
-import { useEffect, useState } from "react";
 
 type Props = {
 	stations: BasicStationInfo[];
@@ -205,9 +206,11 @@ export function StationUrl(props: Props) {
 						<div className="flex flex-col items-center space-y-3 p-6 bg-muted rounded-lg">
 							<p className="text-sm font-medium">Scan to open infoscreen</p>
 							<div className="bg-white p-4 rounded-lg">
-								<img
+								<Image
 									src={qrCodeUrl}
 									alt="QR Code for infoscreen URL"
+									width={256}
+									height={256}
 									className="w-64 h-64"
 								/>
 							</div>
