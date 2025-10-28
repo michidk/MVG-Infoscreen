@@ -36,7 +36,9 @@ const TRANSPORT_TYPES = {
 
 export function TransportBadges({ products, size = "sm" }: Props) {
 	const sizeClasses =
-		size === "sm" ? "text-[10px] px-1.5 py-0.5" : "text-xs px-2 py-1";
+		size === "sm"
+			? "text-[10px] w-5 h-5"
+			: "text-xs w-6 h-6";
 
 	return (
 		<div className="flex gap-1">
@@ -50,7 +52,7 @@ export function TransportBadges({ products, size = "sm" }: Props) {
 				return (
 					<Badge
 						key={product}
-						className={`${transport.color} ${sizeClasses} font-bold hover:opacity-90 transition-opacity`}
+						className={`${transport.color} ${sizeClasses} font-bold hover:opacity-90 transition-opacity rounded-full p-0 flex items-center justify-center`}
 						variant="outline"
 					>
 						{size === "md" && <Icon className="h-3 w-3 mr-1" />}
