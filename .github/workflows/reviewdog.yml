@@ -40,7 +40,7 @@ jobs:
       - name: Install dependencies
         run: bun install
 
-      - uses: mongolyy/reviewdog-action-biome@v1
+      - uses: mongolyy/reviewdog-action-biome@v2
         with:
           reporter: 'github-check'
           fail_on_error: true
