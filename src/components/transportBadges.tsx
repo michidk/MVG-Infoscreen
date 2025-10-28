@@ -19,7 +19,7 @@ const TRANSPORT_TYPES = {
 	},
 	TRAM: {
 		label: "T",
-		color: "bg-red-600 text-white border-red-600",
+		color: "bg-orange-600 text-white border-orange-600",
 		icon: Train,
 	},
 	BUS: {
@@ -28,9 +28,9 @@ const TRANSPORT_TYPES = {
 		icon: Bus,
 	},
 	REGIONAL_BUS: {
-		label: "RB",
-		color: "bg-gray-600 text-white border-gray-600",
-		icon: Train,
+		label: "X",
+		color: "bg-rose-600 text-white border-rose-600",
+		icon: Bus,
 	},
 } as const;
 
