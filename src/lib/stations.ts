@@ -3,6 +3,7 @@ import { fetchWithTimeout } from "./utils";
 export interface BasicStationInfo {
 	name: string;
 	id: string;
+	products: Array<string>;
 }
 
 export interface CompleteStationInfo extends BasicStationInfo {
@@ -33,6 +34,7 @@ export async function getStations(): Promise<BasicStationInfo[]> {
 				({
 					name: station.name,
 					id: station.id,
+					products: station.products,
 				}) as BasicStationInfo,
 		);
 }

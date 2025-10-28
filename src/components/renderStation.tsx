@@ -130,6 +130,7 @@ function formatVehicleIdentifier(type: string, label: string) {
 		}
 		case "UBAHN": {
 			let bgColor = "#bdbdbd";
+			const fgColor = "#ffffff";
 			switch (label) {
 				case "U1":
 					bgColor = "#52822f";
@@ -152,13 +153,17 @@ function formatVehicleIdentifier(type: string, label: string) {
 			}
 
 			return (
-				<div className="w-fit px-4" style={{ backgroundColor: bgColor }}>
+				<div
+					className="w-fit px-4"
+					style={{ backgroundColor: bgColor, color: fgColor }}
+				>
 					{label}
 				</div>
 			);
 		}
 		case "TRAM": {
 			let bgColor = "#bdbdbd";
+			const fgColor = "#ffffff";
 			switch (label) {
 				case "16":
 					bgColor = "#006bb1";
@@ -193,14 +198,20 @@ function formatVehicleIdentifier(type: string, label: string) {
 					break;
 			}
 			return (
-				<div className="w-fit px-4" style={{ backgroundColor: bgColor }}>
+				<div
+					className="w-fit px-4"
+					style={{ backgroundColor: bgColor, color: fgColor }}
+				>
 					{label}
 				</div>
 			);
 		}
 		case "BUS": {
 			return (
-				<div className="w-fit px-4" style={{ backgroundColor: "#f99f1f" }}>
+				<div
+					className="w-fit px-4"
+					style={{ backgroundColor: "#f99f1f", color: "#ffffff" }}
+				>
 					{label}
 				</div>
 			);

@@ -1,7 +1,7 @@
 "use client";
 
 import { StationSelect } from "@/components/stationsSelect";
-import { Badge } from "@/components/ui/badge";
+import { TransportBadges } from "@/components/transportBadges";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -112,23 +112,27 @@ export function StationUrl(props: Props) {
 							<div className="text-sm font-medium">
 								Selected Stations ({selectedStations.length})
 							</div>
-							<div className="flex flex-wrap gap-2 p-4 bg-muted rounded-lg min-h-[60px]">
+							<div className="space-y-2 p-4 bg-muted rounded-lg">
 								{selectedStations.map((station) => (
-									<Badge
+									<div
 										key={station.id}
-										variant="secondary"
-										className="px-3 py-1.5 text-sm hover:bg-secondary/80 transition-colors"
+										className="flex items-center justify-between gap-3 p-3 bg-background rounded-md border hover:border-primary/50 transition-colors"
 									>
-										{station.name}
+										<div className="flex items-center gap-3 flex-1 min-w-0">
+											<span className="font-medium truncate">
+												{station.name}
+											</span>
+											<TransportBadges products={station.products} size="sm" />
+										</div>
 										<button
 											type="button"
 											onClick={() => handleRemoveStation(station.id)}
-											className="ml-2 hover:text-destructive transition-colors"
+											className="shrink-0 p-1 hover:bg-destructive/10 hover:text-destructive rounded transition-colors"
 											aria-label={`Remove ${station.name}`}
 										>
-											<X className="h-3 w-3" />
+											<X className="h-4 w-4" />
 										</button>
-									</Badge>
+									</div>
 								))}
 							</div>
 						</div>

@@ -1,5 +1,6 @@
 "use client";
 
+import { TransportBadges } from "@/components/transportBadges";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -75,9 +76,9 @@ export function StationSelect(props: Props) {
 											setSearchQuery("");
 										}}
 									>
-										<div className="flex items-center w-full">
+										<div className="flex items-center w-full gap-3">
 											<div
-												className={`flex items-center justify-center w-4 h-4 mr-3 border rounded-sm ${
+												className={`flex items-center justify-center w-4 h-4 shrink-0 border rounded-sm ${
 													isSelected(station.id)
 														? "bg-primary border-primary"
 														: "border-input"
@@ -87,7 +88,8 @@ export function StationSelect(props: Props) {
 													<Check className="h-3 w-3 text-primary-foreground" />
 												)}
 											</div>
-											<span className="flex-1">{station.name}</span>
+											<span className="flex-1 text-left">{station.name}</span>
+											<TransportBadges products={station.products} size="sm" />
 										</div>
 									</Button>
 								))}
