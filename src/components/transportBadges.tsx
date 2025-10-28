@@ -1,5 +1,5 @@
 import { Badge } from "@/components/ui/badge";
-import { Bus, Train, Tram } from "lucide-react";
+import { Bus, Train } from "lucide-react";
 
 type Props = {
 	products: string[];
@@ -20,7 +20,7 @@ const TRANSPORT_TYPES = {
 	TRAM: {
 		label: "T",
 		color: "bg-red-600 text-white border-red-600",
-		icon: Tram,
+		icon: Train,
 	},
 	BUS: {
 		label: "B",
