@@ -1,8 +1,7 @@
 "use client";
 
-import { getRecentDepartures } from "@/app/infoscreen/actions";
-import type { Departure } from "@/lib/departures";
 import { useQuery } from "@tanstack/react-query";
+import { getRecentDepartures } from "@/app/infoscreen/actions";
 import { Skeleton } from "./ui/skeleton";
 import { Table, TableBody, TableCell, TableRow } from "./ui/table";
 
@@ -11,6 +10,7 @@ type RenderStationProps = {
 };
 
 const ENTRIES = 8;
+const SKELETON_IDS = Array.from({ length: ENTRIES }, (_, i) => `skeleton-${i}`);
 
 export function RenderStation(props: RenderStationProps) {
 	const { stationId } = props;
@@ -37,60 +37,55 @@ export function RenderStation(props: RenderStationProps) {
 	});
 
 	return (
-		<>
-			<Table className="overflow-hidden">
-				<TableBody>
-					{isLoading && (
-						<>
-							{Array.from({ length: ENTRIES }).map((_, index) => (
-								<TableRow
-									key={index}
-									className={`text-3xl ${index % 2 === 0 ? "" : "bg-blue-800"}`}
-								>
-									<TableCell className="p-0 px-4 py-2" colSpan={3}>
-										<Skeleton className="h-8 w-full" />
-									</TableCell>
-								</TableRow>
-							))}
-						</>
-					)}
-					{isError && (
-						<TableRow className="text-3xl">
-							<TableCell className="p-0 px-4 py-2">
-								Error loading departures
+		<Table className="overflow-hidden">
+			<TableBody>
+				{isLoading &&
+					SKELETON_IDS.map((id, index) => (
+						<TableRow
+							key={id}
+							className={`text-3xl ${index % 2 === 0 ? "" : "bg-blue-800"}`}
+						>
+							<TableCell className="p-0 px-4 py-2" colSpan={3}>
+								<Skeleton className="h-8 w-full" />
 							</TableCell>
 						</TableRow>
-					)}
-					{!isLoading && !isError && departures.length === 0 && (
-						<TableRow className="text-3xl">
-							<TableCell className="p-0 px-4 py-2">No departures</TableCell>
+					))}
+				{isError && (
+					<TableRow className="text-3xl">
+						<TableCell className="p-0 px-4 py-2">
+							Error loading departures
+						</TableCell>
+					</TableRow>
+				)}
+				{!isLoading && !isError && departures.length === 0 && (
+					<TableRow className="text-3xl">
+						<TableCell className="p-0 px-4 py-2">No departures</TableCell>
+					</TableRow>
+				)}
+				{!isLoading &&
+					!isError &&
+					departures.length > 0 &&
+					departures.map((departure, index) => (
+						<TableRow
+							key={departure.label}
+							className={`text-3xl ${index % 2 === 0 ? "" : "bg-blue-800"}`}
+						>
+							<TableCell className="p-0 px-4 py-2">
+								{formatVehicleIdentifier(
+									departure.transportType,
+									departure.label,
+								)}
+							</TableCell>
+							<TableCell className="p-0 px-4">
+								{departure.destination}
+							</TableCell>
+							<TableCell className="p-0 px-4">
+								{formatDepartureTime(departure.realtimeDepartureTime)}
+							</TableCell>
 						</TableRow>
-					)}
-					{!isLoading &&
-						!isError &&
-						departures.length > 0 &&
-						departures.map((departure, index) => (
-							<TableRow
-								key={departure.label}
-								className={`text-3xl ${index % 2 === 0 ? "" : "bg-blue-800"}`}
-							>
-								<TableCell className="p-0 px-4 py-2">
-									{formatVehicleIdentifier(
-										departure.transportType,
-										departure.label,
-									)}
-								</TableCell>
-								<TableCell className="p-0 px-4">
-									{departure.destination}
-								</TableCell>
-								<TableCell className="p-0 px-4">
-									{formatDepartureTime(departure.realtimeDepartureTime)}
-								</TableCell>
-							</TableRow>
-						))}
-				</TableBody>
-			</Table>
-		</>
+					))}
+			</TableBody>
+		</Table>
 	);
 }
 

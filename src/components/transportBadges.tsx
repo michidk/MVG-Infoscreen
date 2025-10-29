@@ -35,10 +35,7 @@ const TRANSPORT_TYPES = {
 } as const;
 
 export function TransportBadges({ products, size = "sm" }: Props) {
-	const sizeClasses =
-		size === "sm"
-			? "text-[10px] w-5 h-5"
-			: "text-xs w-6 h-6";
+	const sizeClasses = size === "sm" ? "text-[10px] w-5 h-5" : "text-xs w-6 h-6";
 
 	return (
 		<div className="flex gap-1">
