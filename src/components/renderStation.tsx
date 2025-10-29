@@ -130,13 +130,8 @@ function formatVehicleIdentifier(type: string, label: string) {
 			}
 			return (
 				<div
-					className="rounded-full w-fit px-6 py-2 font-bold text-3xl shadow-lg border-2"
-					style={{
-						color: fgColor,
-						backgroundColor: bgColor,
-						borderColor:
-							fgColor === "#f1b032" ? fgColor : "rgba(255,255,255,0.3)",
-					}}
+					className="rounded-full w-fit px-4"
+					style={{ color: fgColor, backgroundColor: bgColor }}
 				>
 					{label}
 				</div>
@@ -144,7 +139,6 @@ function formatVehicleIdentifier(type: string, label: string) {
 		}
 		case "UBAHN": {
 			let bgColor = "#bdbdbd";
-			const fgColor = "#ffffff";
 			switch (label) {
 				case "U1":
 					bgColor = "#52822f";
@@ -167,17 +161,13 @@ function formatVehicleIdentifier(type: string, label: string) {
 			}
 
 			return (
-				<div
-					className="rounded-md w-fit px-6 py-2 font-bold text-3xl shadow-lg border-2 border-white/30"
-					style={{ backgroundColor: bgColor, color: fgColor }}
-				>
+				<div className="w-fit px-4" style={{ backgroundColor: bgColor }}>
 					{label}
 				</div>
 			);
 		}
 		case "TRAM": {
 			let bgColor = "#bdbdbd";
-			const fgColor = "#ffffff";
 			switch (label) {
 				case "16":
 					bgColor = "#006bb1";
@@ -212,10 +202,7 @@ function formatVehicleIdentifier(type: string, label: string) {
 					break;
 			}
 			return (
-				<div
-					className="rounded-md w-fit px-6 py-2 font-bold text-3xl shadow-lg border-2 border-white/30"
-					style={{ backgroundColor: bgColor, color: fgColor }}
-				>
+				<div className="w-fit px-4" style={{ backgroundColor: bgColor }}>
 					{label}
 				</div>
 			);
@@ -224,7 +211,7 @@ function formatVehicleIdentifier(type: string, label: string) {
 		case "REGIONAL_BUS": {
 			return (
 				<div
-					className="rounded-md w-fit px-6 py-2 font-bold text-3xl shadow-lg border-2 border-white/30"
+					className="w-fit px-4"
 					style={{ backgroundColor: "#f99f1f", color: "#ffffff" }}
 				>
 					{label}
@@ -234,7 +221,7 @@ function formatVehicleIdentifier(type: string, label: string) {
 		default:
 			return (
 				<div
-					className="rounded-md w-fit px-6 py-2 font-bold text-3xl shadow-lg border-2 border-white/30"
+					className="w-fit px-4"
 					style={{ backgroundColor: "#f99f1f", color: "#ffffff" }}
 				>
 					{label}
