@@ -218,7 +218,8 @@ function formatVehicleIdentifier(type: string, label: string) {
 				</div>
 			);
 		}
-		case "BUS": {
+		case "BUS":
+		case "REGIONAL_BUS": {
 			return (
 				<div
 					className="rounded-full w-fit px-4"
