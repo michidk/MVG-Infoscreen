@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { getRecentDepartures } from "@/app/infoscreen/actions";
 import type { Departure } from "@/lib/departures";
+import { useQuery } from "@tanstack/react-query";
+import { Skeleton } from "./ui/skeleton";
 import { Table, TableBody, TableCell, TableRow } from "./ui/table";
 
 type RenderStationProps = {
@@ -10,17 +11,19 @@ type RenderStationProps = {
 };
 
 const ENTRIES = 8;
-const REFRESH_INTERVAL = 1000 * 15; // 15 seconds
 
 export function RenderStation(props: RenderStationProps) {
 	const { stationId } = props;
 
-	const [departures, setDepartures] = useState<Departure[]>([]);
-
-	useEffect(() => {
-		const fetchStations = async () => {
+	const {
+		data: departures = [],
+		isLoading,
+		isError,
+	} = useQuery({
+		queryKey: ["departures", stationId],
+		queryFn: async () => {
 			try {
-				setDepartures(await getRecentDepartures(stationId, ENTRIES));
+				return await getRecentDepartures(stationId, ENTRIES);
 			} catch (e) {
 				const error = e as { code: string; message: string };
 				if (error.code === "ECONNABORTED") {
@@ -28,50 +31,66 @@ export function RenderStation(props: RenderStationProps) {
 				} else {
 					console.error("An error occurred (`/departure`)", error.message);
 				}
+				throw e;
 			}
-		};
-
-		// Fetch once on mount
-		fetchStations();
-
-		// Fetch every REFRESH_INTERVAL
-		const interval = setInterval(() => {
-			fetchStations();
-		}, REFRESH_INTERVAL);
-
-		return () => clearInterval(interval);
-	}, [stationId]);
+		},
+	});
 
 	return (
-		<Table className="overflow-hidden">
-			<TableBody>
-				{departures.length === 0 && (
-					<TableRow className="text-3xl">
-						<TableCell className="p-0 px-4 py-2">No departures</TableCell>
-					</TableRow>
-				)}
-				{departures.length > 0 &&
-					departures.map((departure, index) => (
-						<TableRow
-							key={departure.label}
-							className={`text-3xl ${index % 2 === 0 ? "" : "bg-blue-800"}`}
-						>
+		<>
+			<Table className="overflow-hidden">
+				<TableBody>
+					{isLoading && (
+						<>
+							{Array.from({ length: ENTRIES }).map((_, index) => (
+								<TableRow
+									key={index}
+									className={`text-3xl ${index % 2 === 0 ? "" : "bg-blue-800"}`}
+								>
+									<TableCell className="p-0 px-4 py-2" colSpan={3}>
+										<Skeleton className="h-8 w-full" />
+									</TableCell>
+								</TableRow>
+							))}
+						</>
+					)}
+					{isError && (
+						<TableRow className="text-3xl">
 							<TableCell className="p-0 px-4 py-2">
-								{formatVehicleIdentifier(
-									departure.transportType,
-									departure.label,
-								)}
-							</TableCell>
-							<TableCell className="p-0 px-4">
-								{departure.destination}
-							</TableCell>
-							<TableCell className="p-0 px-4">
-								{formatDepartureTime(departure.realtimeDepartureTime)}
+								Error loading departures
 							</TableCell>
 						</TableRow>
-					))}
-			</TableBody>
-		</Table>
+					)}
+					{!isLoading && !isError && departures.length === 0 && (
+						<TableRow className="text-3xl">
+							<TableCell className="p-0 px-4 py-2">No departures</TableCell>
+						</TableRow>
+					)}
+					{!isLoading &&
+						!isError &&
+						departures.length > 0 &&
+						departures.map((departure, index) => (
+							<TableRow
+								key={departure.label}
+								className={`text-3xl ${index % 2 === 0 ? "" : "bg-blue-800"}`}
+							>
+								<TableCell className="p-0 px-4 py-2">
+									{formatVehicleIdentifier(
+										departure.transportType,
+										departure.label,
+									)}
+								</TableCell>
+								<TableCell className="p-0 px-4">
+									{departure.destination}
+								</TableCell>
+								<TableCell className="p-0 px-4">
+									{formatDepartureTime(departure.realtimeDepartureTime)}
+								</TableCell>
+							</TableRow>
+						))}
+				</TableBody>
+			</Table>
+		</>
 	);
 }
 
