@@ -10,6 +10,7 @@ type RenderStationProps = {
 };
 
 const ENTRIES = 8;
+const SKELETON_IDS = Array.from({ length: ENTRIES }, (_, i) => `skeleton-${i}`);
 
 export function RenderStation(props: RenderStationProps) {
 	const { stationId } = props;
@@ -39,9 +40,9 @@ export function RenderStation(props: RenderStationProps) {
 		<Table className="overflow-hidden">
 			<TableBody>
 				{isLoading &&
-					Array.from({ length: ENTRIES }).map((_, index) => (
+					SKELETON_IDS.map((id, index) => (
 						<TableRow
-							key={`skeleton-${index}`}
+							key={id}
 							className={`text-3xl ${index % 2 === 0 ? "" : "bg-blue-800"}`}
 						>
 							<TableCell className="p-0 px-4 py-2" colSpan={3}>
