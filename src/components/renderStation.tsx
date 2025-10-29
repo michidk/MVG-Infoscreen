@@ -166,7 +166,7 @@ function formatVehicleIdentifier(type: string, label: string) {
 
 			return (
 				<div
-					className="rounded-full w-fit px-4"
+					className="w-fit px-4"
 					style={{ backgroundColor: bgColor, color: fgColor }}
 				>
 					{label}
@@ -211,7 +211,7 @@ function formatVehicleIdentifier(type: string, label: string) {
 			}
 			return (
 				<div
-					className="rounded-full w-fit px-4"
+					className="w-fit px-4"
 					style={{ backgroundColor: bgColor, color: fgColor }}
 				>
 					{label}
@@ -222,7 +222,7 @@ function formatVehicleIdentifier(type: string, label: string) {
 		case "REGIONAL_BUS": {
 			return (
 				<div
-					className="rounded-full w-fit px-4"
+					className="w-fit px-4"
 					style={{ backgroundColor: "#f99f1f", color: "#ffffff" }}
 				>
 					{label}
@@ -230,6 +230,13 @@ function formatVehicleIdentifier(type: string, label: string) {
 			);
 		}
 		default:
-			return label;
+			return (
+				<div
+					className="w-fit px-4"
+					style={{ backgroundColor: "#f99f1f", color: "#ffffff" }}
+				>
+					{label}
+				</div>
+			);
 	}
 }
