@@ -35,15 +35,44 @@ export default async function Page(props: Props) {
 		);
 	}
 
-	if (
-		stations.some(
-			(station) =>
-				!availableStations.find(
-					(availableStation) => availableStation.id === station,
-				),
-		)
-	) {
-		return <div>Invalid station provided.</div>;
+	const invalidStations = stations.filter(
+		(station) =>
+			!availableStations.find(
+				(availableStation) => availableStation.id === station,
+			),
+	);
+
+	if (invalidStations.length > 0) {
+		return (
+			<div className="flex items-center justify-center h-screen bg-gradient-to-br from-blue-900 to-blue-950">
+				<div className="bg-gradient-to-br from-red-800/90 to-red-900/90 backdrop-blur-sm rounded-2xl shadow-2xl border border-red-700/50 p-10 max-w-2xl">
+					<div className="text-center">
+						<h1 className="text-5xl font-bold text-white mb-6">
+							⚠️ Invalid Station{invalidStations.length > 1 ? "s" : ""}
+						</h1>
+						<p className="text-xl text-red-100 mb-6">
+							The following station{invalidStations.length > 1 ? "s were" : " was"}{" "}
+							not found:
+						</p>
+						<div className="bg-red-950/50 rounded-lg p-6 mb-6">
+							<ul className="space-y-3">
+								{invalidStations.map((station) => (
+									<li
+										key={station}
+										className="text-2xl font-mono text-red-200 bg-red-900/30 rounded px-4 py-2"
+									>
+										{station}
+									</li>
+								))}
+							</ul>
+						</div>
+						<p className="text-lg text-red-100">
+							Please check the station IDs and try again.
+						</p>
+					</div>
+				</div>
+			</div>
+		);
 	}
 
 	let stationInfos = availableStations.filter((station) =>
