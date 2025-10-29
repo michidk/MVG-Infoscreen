@@ -38,11 +38,7 @@ export default async function RootLayout({
 	return (
 		<html lang="en">
 			<head />
-			<body
-				className={cn(
-					"min-h-screen h-screen font-sans antialiased",
-				)}
-			>
+			<body className={cn("min-h-screen h-screen font-sans antialiased")}>
 				<Providers>{children}</Providers>
 			</body>
 		</html>

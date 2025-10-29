@@ -36,7 +36,8 @@
 				"noImgElement": "error"
 			},
 			"suspicious": {
-				"noUnknownAtRules": "off"
+				"noUnknownAtRules": "off",
+				"noArrayIndexKey": "warn"
 			}
 		}
 	},
