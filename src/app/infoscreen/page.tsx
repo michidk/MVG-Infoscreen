@@ -51,8 +51,8 @@ export default async function Page(props: Props) {
 							⚠️ Invalid Station{invalidStations.length > 1 ? "s" : ""}
 						</h1>
 						<p className="text-xl text-red-100 mb-6">
-							The following station{invalidStations.length > 1 ? "s were" : " was"}{" "}
-							not found:
+							The following station
+							{invalidStations.length > 1 ? "s were" : " was"} not found:
 						</p>
 						<div className="bg-red-950/50 rounded-lg p-6 mb-6">
 							<ul className="space-y-3">
