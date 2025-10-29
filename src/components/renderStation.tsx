@@ -149,7 +149,8 @@ function formatVehicleIdentifier(type: string, label: string) {
 					style={{
 						color: fgColor,
 						backgroundColor: bgColor,
-						borderColor: fgColor === "#f1b032" ? fgColor : "rgba(255,255,255,0.3)",
+						borderColor:
+							fgColor === "#f1b032" ? fgColor : "rgba(255,255,255,0.3)",
 					}}
 				>
 					{label}
