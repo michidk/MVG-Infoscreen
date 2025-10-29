@@ -68,12 +68,17 @@ export default async function Page(props: Props) {
 					key={station.id}
 					className="bg-gradient-to-br from-blue-800/90 to-blue-900/90 backdrop-blur-sm rounded-2xl shadow-2xl border border-blue-700/50 overflow-hidden flex flex-col"
 				>
-					<div className="bg-gradient-to-r from-blue-700 to-blue-600 px-10 py-8 border-b border-blue-600/50 flex items-center justify-between">
-						<h1 className="text-7xl font-bold text-white tracking-tight">
+					<div className="bg-gradient-to-r from-blue-700 to-blue-600 px-10 py-8 border-b border-blue-600/50 flex items-center justify-between gap-8">
+						<h1 className="text-7xl font-bold text-white tracking-tight flex-1">
 							{station.name}
 						</h1>
-						<div className="scale-[2.5] mr-8">
-							<TransportBadges products={station.products} size="md" />
+						<div
+							className="flex items-center justify-end pr-8"
+							style={{ minWidth: "fit-content" }}
+						>
+							<div className="scale-[2.5]">
+								<TransportBadges products={station.products} size="md" />
+							</div>
 						</div>
 					</div>
 					<div className="p-8 flex-1">
