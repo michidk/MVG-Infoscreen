@@ -8,28 +8,29 @@ type Props = {
 const TRANSPORT_TYPES = {
 	UBAHN: {
 		label: "U",
-		color: "bg-blue-600 text-white border-blue-600",
+		bgColor: "bg-blue-600",
 	},
 	SBAHN: {
 		label: "S",
-		color: "bg-green-700 text-white border-green-700",
+		bgColor: "bg-green-700",
 	},
 	TRAM: {
 		label: "T",
-		color: "bg-orange-600 text-white border-orange-600",
+		bgColor: "bg-orange-600",
 	},
 	BUS: {
 		label: "B",
-		color: "bg-orange-500 text-white border-orange-500",
+		bgColor: "bg-orange-500",
 	},
 	REGIONAL_BUS: {
 		label: "X",
-		color: "bg-rose-600 text-white border-rose-600",
+		bgColor: "bg-rose-600",
 	},
 } as const;
 
 export function TransportBadges({ products, size = "sm" }: Props) {
 	const sizeClasses = size === "sm" ? "text-[10px] w-5 h-5" : "text-xs w-6 h-6";
+	const borderClass = size === "md" ? "border-white border-2" : "";
 
 	return (
 		<div className="flex gap-2">
@@ -41,7 +42,7 @@ export function TransportBadges({ products, size = "sm" }: Props) {
 				return (
 					<Badge
 						key={product}
-						className={`${transport.color} ${sizeClasses} font-bold hover:opacity-90 transition-opacity rounded-full p-0 flex items-center justify-center`}
+						className={`${transport.bgColor} text-white ${borderClass} ${sizeClasses} font-bold hover:opacity-90 transition-opacity rounded-full p-0 flex items-center justify-center`}
 						variant="outline"
 					>
 						{transport.label}

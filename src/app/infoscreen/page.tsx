@@ -72,7 +72,7 @@ export default async function Page(props: Props) {
 						<h1 className="text-7xl font-bold text-white tracking-tight">
 							{station.name}
 						</h1>
-						<div className="scale-[2.5]">
+						<div className="scale-[2.5] mr-8">
 							<TransportBadges products={station.products} size="md" />
 						</div>
 					</div>
