@@ -235,7 +235,8 @@ function formatVehicleIdentifier(type: string, label: string) {
 				</div>
 			);
 		}
-		case "BUS": {
+		case "BUS":
+		case "REGIONAL_BUS": {
 			return (
 				<div
 					className="rounded-md w-fit px-6 py-2 font-bold text-3xl shadow-lg border-2 border-white/30"
@@ -246,6 +247,13 @@ function formatVehicleIdentifier(type: string, label: string) {
 			);
 		}
 		default:
-			return label;
+			return (
+				<div
+					className="rounded-md w-fit px-6 py-2 font-bold text-3xl shadow-lg border-2 border-white/30"
+					style={{ backgroundColor: "#f99f1f", color: "#ffffff" }}
+				>
+					{label}
+				</div>
+			);
 	}
 }
