@@ -224,7 +224,7 @@ export function StationUrl(props: Props) {
 								size="sm"
 								onClick={() => handleLoadExample(["de:09162:40"])}
 							>
-								Götheplatz
+								Goetheplatz
 							</Button>
 							<Button
 								variant="outline"
