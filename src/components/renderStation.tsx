@@ -43,27 +43,27 @@ export function RenderStation(props: RenderStationProps) {
 					SKELETON_IDS.map((id, index) => (
 						<TableRow
 							key={id}
-							className={`text-3xl transition-colors ${
+							className={`text-5xl transition-colors ${
 								index % 2 === 0
 									? "bg-blue-800/30 hover:bg-blue-800/40"
 									: "bg-blue-700/20 hover:bg-blue-700/30"
 							}`}
 						>
-							<TableCell className="px-6 py-4" colSpan={3}>
-								<Skeleton className="h-10 w-full rounded-lg" />
+							<TableCell className="px-8 py-6" colSpan={3}>
+								<Skeleton className="h-14 w-full rounded-lg" />
 							</TableCell>
 						</TableRow>
 					))}
 				{isError && (
-					<TableRow className="text-3xl bg-red-900/20">
-						<TableCell className="px-6 py-4 text-red-300 font-medium">
+					<TableRow className="text-5xl bg-red-900/20">
+						<TableCell className="px-8 py-6 text-red-300 font-medium">
 							Error loading departures
 						</TableCell>
 					</TableRow>
 				)}
 				{!isLoading && !isError && departures.length === 0 && (
-					<TableRow className="text-3xl">
-						<TableCell className="px-6 py-4 text-blue-200 font-medium">
+					<TableRow className="text-5xl">
+						<TableCell className="px-8 py-6 text-blue-200 font-medium">
 							No departures
 						</TableCell>
 					</TableRow>
@@ -74,23 +74,23 @@ export function RenderStation(props: RenderStationProps) {
 					departures.map((departure, index) => (
 						<TableRow
 							key={departure.label}
-							className={`text-3xl transition-colors border-b border-blue-700/30 ${
+							className={`text-5xl transition-colors border-b border-blue-700/30 ${
 								index % 2 === 0
 									? "bg-blue-800/30 hover:bg-blue-800/40"
 									: "bg-blue-700/20 hover:bg-blue-700/30"
 							}`}
 						>
-							<TableCell className="px-6 py-4 w-32">
+							<TableCell className="px-8 py-6 w-48">
 								{formatVehicleIdentifier(
 									departure.transportType,
 									departure.label,
 								)}
 							</TableCell>
-							<TableCell className="px-6 py-4 font-medium text-white">
+							<TableCell className="px-8 py-6 font-semibold text-white">
 								{departure.destination}
 							</TableCell>
-							<TableCell className="px-6 py-4 text-right w-40">
-								<span className="inline-block bg-blue-600/40 px-4 py-2 rounded-lg font-bold text-white min-w-[100px] text-center border border-blue-500/30">
+							<TableCell className="px-8 py-6 text-right w-56">
+								<span className="inline-block bg-blue-600/40 px-6 py-3 rounded-lg font-bold text-white min-w-[140px] text-center border border-blue-500/30">
 									{formatDepartureTime(departure.realtimeDepartureTime)}
 								</span>
 							</TableCell>
@@ -145,7 +145,7 @@ function formatVehicleIdentifier(type: string, label: string) {
 			}
 			return (
 				<div
-					className="rounded-full w-fit px-4 py-1 font-bold text-xl shadow-lg border-2"
+					className="rounded-full w-fit px-6 py-2 font-bold text-3xl shadow-lg border-2"
 					style={{
 						color: fgColor,
 						backgroundColor: bgColor,
@@ -183,7 +183,7 @@ function formatVehicleIdentifier(type: string, label: string) {
 
 			return (
 				<div
-					className="rounded-full w-fit px-4 py-1 font-bold text-xl shadow-lg border-2 border-white/30"
+					className="rounded-md w-fit px-6 py-2 font-bold text-3xl shadow-lg border-2 border-white/30"
 					style={{ backgroundColor: bgColor, color: fgColor }}
 				>
 					{label}
@@ -228,7 +228,7 @@ function formatVehicleIdentifier(type: string, label: string) {
 			}
 			return (
 				<div
-					className="rounded-full w-fit px-4 py-1 font-bold text-xl shadow-lg border-2 border-white/30"
+					className="rounded-md w-fit px-6 py-2 font-bold text-3xl shadow-lg border-2 border-white/30"
 					style={{ backgroundColor: bgColor, color: fgColor }}
 				>
 					{label}
@@ -238,7 +238,7 @@ function formatVehicleIdentifier(type: string, label: string) {
 		case "BUS": {
 			return (
 				<div
-					className="rounded-full w-fit px-4 py-1 font-bold text-xl shadow-lg border-2 border-white/30"
+					className="rounded-md w-fit px-6 py-2 font-bold text-3xl shadow-lg border-2 border-white/30"
 					style={{ backgroundColor: "#f99f1f", color: "#ffffff" }}
 				>
 					{label}
