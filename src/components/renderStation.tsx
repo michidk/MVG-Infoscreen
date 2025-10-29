@@ -20,67 +20,69 @@ export function RenderStation(props: RenderStationProps) {
 	});
 
 	return (
-		<Table className="overflow-hidden">
-			<TableBody>
-				{isLoading &&
-					SKELETON_IDS.map((id, index) => (
-						<TableRow
-							key={id}
-							className={`text-5xl transition-colors ${
-								index % 2 === 0
-									? "bg-blue-800/30 hover:bg-blue-800/40"
-									: "bg-blue-700/20 hover:bg-blue-700/30"
-							}`}
-						>
-							<TableCell className="px-8 py-6" colSpan={3}>
-								<Skeleton className="h-14 w-full rounded-lg" />
+		<div className="overflow-hidden h-full flex flex-col">
+			<Table>
+				<TableBody>
+					{isLoading &&
+						SKELETON_IDS.map((id, index) => (
+							<TableRow
+								key={id}
+								className={`text-5xl transition-colors h-24 ${
+									index % 2 === 0
+										? "bg-blue-800/30 hover:bg-blue-800/40"
+										: "bg-blue-700/20 hover:bg-blue-700/30"
+								}`}
+							>
+								<TableCell className="px-8 py-6" colSpan={3}>
+									<Skeleton className="h-14 w-full rounded-lg" />
+								</TableCell>
+							</TableRow>
+						))}
+					{isError && (
+						<TableRow className="text-5xl bg-red-900/20 h-24">
+							<TableCell className="px-8 py-6 text-red-300 font-medium">
+								Error loading departures
 							</TableCell>
 						</TableRow>
-					))}
-				{isError && (
-					<TableRow className="text-5xl bg-red-900/20">
-						<TableCell className="px-8 py-6 text-red-300 font-medium">
-							Error loading departures
-						</TableCell>
-					</TableRow>
-				)}
-				{!isLoading && !isError && departures.length === 0 && (
-					<TableRow className="text-5xl">
-						<TableCell className="px-8 py-6 text-blue-200 font-medium">
-							No departures
-						</TableCell>
-					</TableRow>
-				)}
-				{!isLoading &&
-					!isError &&
-					departures.length > 0 &&
-					departures.map((departure, index) => (
-						<TableRow
-							key={departure.label}
-							className={`text-5xl transition-colors border-b border-blue-700/30 ${
-								index % 2 === 0
-									? "bg-blue-800/30 hover:bg-blue-800/40"
-									: "bg-blue-700/20 hover:bg-blue-700/30"
-							}`}
-						>
-							<TableCell className="px-8 py-6 w-48">
-								{formatVehicleIdentifier(
-									departure.transportType,
-									departure.label,
-								)}
-							</TableCell>
-							<TableCell className="px-8 py-6 font-semibold text-white">
-								{departure.destination}
-							</TableCell>
-							<TableCell className="px-8 py-6 text-right w-56">
-								<span className="inline-block bg-blue-600/40 px-6 py-3 rounded-lg font-bold text-white min-w-[140px] text-center border border-blue-500/30">
-									{formatDepartureTime(departure.realtimeDepartureTime)}
-								</span>
+					)}
+					{!isLoading && !isError && departures.length === 0 && (
+						<TableRow className="text-5xl h-24">
+							<TableCell className="px-8 py-6 text-blue-200 font-medium">
+								No departures
 							</TableCell>
 						</TableRow>
-					))}
-			</TableBody>
-		</Table>
+					)}
+					{!isLoading &&
+						!isError &&
+						departures.length > 0 &&
+						departures.map((departure, index) => (
+							<TableRow
+								key={departure.label}
+								className={`text-5xl transition-colors border-b border-blue-700/30 h-24 ${
+									index % 2 === 0
+										? "bg-blue-800/30 hover:bg-blue-800/40"
+										: "bg-blue-700/20 hover:bg-blue-700/30"
+								}`}
+							>
+								<TableCell className="px-8 py-6 w-48">
+									{formatVehicleIdentifier(
+										departure.transportType,
+										departure.label,
+									)}
+								</TableCell>
+								<TableCell className="px-8 py-6 font-semibold text-white">
+									{departure.destination}
+								</TableCell>
+								<TableCell className="px-8 py-6 text-right w-72">
+									<span className="inline-block bg-blue-600/40 px-6 py-3 rounded-lg font-bold text-white min-w-[180px] text-center border border-blue-500/30 whitespace-nowrap">
+										{formatDepartureTime(departure.realtimeDepartureTime)}
+									</span>
+								</TableCell>
+							</TableRow>
+						))}
+				</TableBody>
+			</Table>
+		</div>
 	);
 }
 
