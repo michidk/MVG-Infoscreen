@@ -50,15 +50,22 @@ export default async function Page(props: Props) {
 	);
 
 	return (
-		<>
+		<div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-[1920px] mx-auto">
 			{stationInfos.map((station) => (
-				<div key={station.id} className="mb-8">
-					<h1 className="text-6xl pb-4">{station.name}</h1>
-					<div className="w-full bg-blue-700">
+				<div
+					key={station.id}
+					className="bg-gradient-to-br from-blue-800/90 to-blue-900/90 backdrop-blur-sm rounded-2xl shadow-2xl border border-blue-700/50 overflow-hidden"
+				>
+					<div className="bg-gradient-to-r from-blue-700 to-blue-600 px-8 py-6 border-b border-blue-600/50">
+						<h1 className="text-5xl font-bold text-white tracking-tight">
+							{station.name}
+						</h1>
+					</div>
+					<div className="p-6">
 						<RenderStation stationId={station.id} />
 					</div>
 				</div>
 			))}
-		</>
+		</div>
 	);
 }
