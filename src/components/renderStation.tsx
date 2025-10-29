@@ -1,6 +1,6 @@
 "use client";
 
-import { useDepartures } from "@/hooks";
+import { useDepartures } from "@/hooks/useDepartures";
 import { Skeleton } from "./ui/skeleton";
 import { Table, TableBody, TableCell, TableRow } from "./ui/table";
 
