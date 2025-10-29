@@ -45,12 +45,23 @@ export default async function Page(props: Props) {
 		return <div>Invalid station provided.</div>;
 	}
 
-	const stationInfos = availableStations.filter((station) =>
+	let stationInfos = availableStations.filter((station) =>
 		stations.includes(station.id),
 	);
 
+	// Limit to maximum 6 stations
+	stationInfos = stationInfos.slice(0, 6);
+
+	// Determine grid columns based on number of stations
+	let gridColsClass = "grid-cols-1";
+	if (stationInfos.length === 2) {
+		gridColsClass = "grid-cols-2";
+	} else if (stationInfos.length >= 3) {
+		gridColsClass = "grid-cols-3";
+	}
+
 	return (
-		<div className="grid grid-cols-1 lg:grid-cols-2 gap-10 h-full">
+		<div className={`grid ${gridColsClass} gap-10 h-full`}>
 			{stationInfos.map((station) => (
 				<div
 					key={station.id}
