@@ -1,4 +1,3 @@
-import { Bus, Train } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
 type Props = {
@@ -9,50 +8,43 @@ type Props = {
 const TRANSPORT_TYPES = {
 	UBAHN: {
 		label: "U",
-		color: "bg-blue-600 text-white border-blue-600",
-		icon: Train,
+		bgColor: "bg-blue-600",
 	},
 	SBAHN: {
 		label: "S",
-		color: "bg-green-700 text-white border-green-700",
-		icon: Train,
+		bgColor: "bg-green-700",
 	},
 	TRAM: {
 		label: "T",
-		color: "bg-orange-600 text-white border-orange-600",
-		icon: Train,
+		bgColor: "bg-orange-600",
 	},
 	BUS: {
 		label: "B",
-		color: "bg-orange-500 text-white border-orange-500",
-		icon: Bus,
+		bgColor: "bg-orange-500",
 	},
 	REGIONAL_BUS: {
 		label: "X",
-		color: "bg-rose-600 text-white border-rose-600",
-		icon: Bus,
+		bgColor: "bg-rose-600",
 	},
 } as const;
 
 export function TransportBadges({ products, size = "sm" }: Props) {
 	const sizeClasses = size === "sm" ? "text-[10px] w-5 h-5" : "text-xs w-6 h-6";
+	const borderClass = size === "md" ? "border-white border" : "";
 
 	return (
-		<div className="flex gap-1">
+		<div className="flex gap-2">
 			{products.map((product) => {
 				const transport =
 					TRANSPORT_TYPES[product as keyof typeof TRANSPORT_TYPES];
 				if (!transport) return null;
 
-				const Icon = transport.icon;
-
 				return (
 					<Badge
 						key={product}
-						className={`${transport.color} ${sizeClasses} font-bold hover:opacity-90 transition-opacity rounded-full p-0 flex items-center justify-center`}
+						className={`${transport.bgColor} text-white ${borderClass} ${sizeClasses} font-bold hover:opacity-90 transition-opacity rounded-full p-0 flex items-center justify-center`}
 						variant="outline"
 					>
-						{size === "md" && <Icon className="h-3 w-3 mr-1" />}
 						{transport.label}
 					</Badge>
 				);

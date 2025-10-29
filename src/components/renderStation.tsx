@@ -20,67 +20,69 @@ export function RenderStation(props: RenderStationProps) {
 	});
 
 	return (
-		<Table className="overflow-hidden">
-			<TableBody>
-				{isLoading &&
-					SKELETON_IDS.map((id, index) => (
-						<TableRow
-							key={id}
-							className={`text-5xl transition-colors ${
-								index % 2 === 0
-									? "bg-blue-800/30 hover:bg-blue-800/40"
-									: "bg-blue-700/20 hover:bg-blue-700/30"
-							}`}
-						>
-							<TableCell className="px-8 py-6" colSpan={3}>
-								<Skeleton className="h-14 w-full rounded-lg" />
+		<div className="overflow-hidden h-full flex flex-col">
+			<Table>
+				<TableBody>
+					{isLoading &&
+						SKELETON_IDS.map((id, index) => (
+							<TableRow
+								key={id}
+								className={`text-5xl transition-colors h-24 ${
+									index % 2 === 0
+										? "bg-blue-800/30 hover:bg-blue-800/40"
+										: "bg-blue-700/20 hover:bg-blue-700/30"
+								}`}
+							>
+								<TableCell className="px-8 py-6" colSpan={3}>
+									<Skeleton className="h-14 w-full rounded-lg" />
+								</TableCell>
+							</TableRow>
+						))}
+					{isError && (
+						<TableRow className="text-5xl bg-red-900/20 h-24">
+							<TableCell className="px-8 py-6 text-red-300 font-medium">
+								Error loading departures
 							</TableCell>
 						</TableRow>
-					))}
-				{isError && (
-					<TableRow className="text-5xl bg-red-900/20">
-						<TableCell className="px-8 py-6 text-red-300 font-medium">
-							Error loading departures
-						</TableCell>
-					</TableRow>
-				)}
-				{!isLoading && !isError && departures.length === 0 && (
-					<TableRow className="text-5xl">
-						<TableCell className="px-8 py-6 text-blue-200 font-medium">
-							No departures
-						</TableCell>
-					</TableRow>
-				)}
-				{!isLoading &&
-					!isError &&
-					departures.length > 0 &&
-					departures.map((departure, index) => (
-						<TableRow
-							key={departure.label}
-							className={`text-5xl transition-colors border-b border-blue-700/30 ${
-								index % 2 === 0
-									? "bg-blue-800/30 hover:bg-blue-800/40"
-									: "bg-blue-700/20 hover:bg-blue-700/30"
-							}`}
-						>
-							<TableCell className="px-8 py-6 w-48">
-								{formatVehicleIdentifier(
-									departure.transportType,
-									departure.label,
-								)}
-							</TableCell>
-							<TableCell className="px-8 py-6 font-semibold text-white">
-								{departure.destination}
-							</TableCell>
-							<TableCell className="px-8 py-6 text-right w-56">
-								<span className="inline-block bg-blue-600/40 px-6 py-3 rounded-lg font-bold text-white min-w-[140px] text-center border border-blue-500/30">
-									{formatDepartureTime(departure.realtimeDepartureTime)}
-								</span>
+					)}
+					{!isLoading && !isError && departures.length === 0 && (
+						<TableRow className="text-5xl h-24">
+							<TableCell className="px-8 py-6 text-blue-200 font-medium">
+								No departures
 							</TableCell>
 						</TableRow>
-					))}
-			</TableBody>
-		</Table>
+					)}
+					{!isLoading &&
+						!isError &&
+						departures.length > 0 &&
+						departures.map((departure, index) => (
+							<TableRow
+								key={departure.label}
+								className={`text-5xl transition-colors border-b border-blue-700/30 h-24 ${
+									index % 2 === 0
+										? "bg-blue-800/30 hover:bg-blue-800/40"
+										: "bg-blue-700/20 hover:bg-blue-700/30"
+								}`}
+							>
+								<TableCell className="px-8 py-6 w-48">
+									{formatVehicleIdentifier(
+										departure.transportType,
+										departure.label,
+									)}
+								</TableCell>
+								<TableCell className="px-8 py-6 font-semibold text-white">
+									{departure.destination}
+								</TableCell>
+								<TableCell className="px-8 py-6 text-right w-72">
+									<span className="inline-block bg-blue-600/40 px-6 py-3 rounded-lg font-bold text-white min-w-[180px] text-center border border-blue-500/30 whitespace-nowrap">
+										{formatDepartureTime(departure.realtimeDepartureTime)}
+									</span>
+								</TableCell>
+							</TableRow>
+						))}
+				</TableBody>
+			</Table>
+		</div>
 	);
 }
 
@@ -128,13 +130,8 @@ function formatVehicleIdentifier(type: string, label: string) {
 			}
 			return (
 				<div
-					className="rounded-full w-fit px-6 py-2 font-bold text-3xl shadow-lg border-2"
-					style={{
-						color: fgColor,
-						backgroundColor: bgColor,
-						borderColor:
-							fgColor === "#f1b032" ? fgColor : "rgba(255,255,255,0.3)",
-					}}
+					className="rounded-full w-fit px-5 py-2 flex items-center justify-center"
+					style={{ color: fgColor, backgroundColor: bgColor }}
 				>
 					{label}
 				</div>
@@ -142,7 +139,6 @@ function formatVehicleIdentifier(type: string, label: string) {
 		}
 		case "UBAHN": {
 			let bgColor = "#bdbdbd";
-			const fgColor = "#ffffff";
 			switch (label) {
 				case "U1":
 					bgColor = "#52822f";
@@ -166,8 +162,8 @@ function formatVehicleIdentifier(type: string, label: string) {
 
 			return (
 				<div
-					className="rounded-md w-fit px-6 py-2 font-bold text-3xl shadow-lg border-2 border-white/30"
-					style={{ backgroundColor: bgColor, color: fgColor }}
+					className="rounded-md w-fit px-5 py-2 flex items-center justify-center"
+					style={{ backgroundColor: bgColor, color: "#ffffff" }}
 				>
 					{label}
 				</div>
@@ -175,7 +171,6 @@ function formatVehicleIdentifier(type: string, label: string) {
 		}
 		case "TRAM": {
 			let bgColor = "#bdbdbd";
-			const fgColor = "#ffffff";
 			switch (label) {
 				case "16":
 					bgColor = "#006bb1";
@@ -211,8 +206,8 @@ function formatVehicleIdentifier(type: string, label: string) {
 			}
 			return (
 				<div
-					className="rounded-md w-fit px-6 py-2 font-bold text-3xl shadow-lg border-2 border-white/30"
-					style={{ backgroundColor: bgColor, color: fgColor }}
+					className="rounded-md w-fit px-5 py-2 flex items-center justify-center"
+					style={{ backgroundColor: bgColor, color: "#ffffff" }}
 				>
 					{label}
 				</div>
@@ -222,7 +217,7 @@ function formatVehicleIdentifier(type: string, label: string) {
 		case "REGIONAL_BUS": {
 			return (
 				<div
-					className="rounded-md w-fit px-6 py-2 font-bold text-3xl shadow-lg border-2 border-white/30"
+					className="rounded-md w-fit px-5 py-2 flex items-center justify-center"
 					style={{ backgroundColor: "#f99f1f", color: "#ffffff" }}
 				>
 					{label}
@@ -232,7 +227,7 @@ function formatVehicleIdentifier(type: string, label: string) {
 		default:
 			return (
 				<div
-					className="rounded-md w-fit px-6 py-2 font-bold text-3xl shadow-lg border-2 border-white/30"
+					className="rounded-md w-fit px-5 py-2 flex items-center justify-center"
 					style={{ backgroundColor: "#f99f1f", color: "#ffffff" }}
 				>
 					{label}
