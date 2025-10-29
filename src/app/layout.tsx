@@ -1,15 +1,9 @@
 import type { Metadata } from "next";
-import { Inter as FontSans } from "next/font/google";
 import "./globals.css";
 
 import { Providers } from "@/components/providers";
 import { siteConfig } from "@/lib/config";
 import { cn } from "@/lib/utils";
-
-const fontSans = FontSans({
-	subsets: ["latin"],
-	variable: "--font-sans",
-});
 
 export const metadata: Metadata = {
 	metadataBase: new URL(siteConfig.url),
@@ -47,7 +41,6 @@ export default async function RootLayout({
 			<body
 				className={cn(
 					"min-h-screen h-screen font-sans antialiased",
-					fontSans.variable,
 				)}
 			>
 				<Providers>{children}</Providers>
