@@ -1,6 +1,23 @@
 "use client";
 
 import {
+	closestCenter,
+	DndContext,
+	type DragEndEvent,
+	KeyboardSensor,
+	PointerSensor,
+	useSensor,
+	useSensors,
+} from "@dnd-kit/core";
+import {
+	arrayMove,
+	SortableContext,
+	sortableKeyboardCoordinates,
+	useSortable,
+	verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import {
 	CheckCircle2,
 	Copy,
 	ExternalLink,
@@ -11,23 +28,6 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import {
-	DndContext,
-	type DragEndEvent,
-	KeyboardSensor,
-	PointerSensor,
-	closestCenter,
-	useSensor,
-	useSensors,
-} from "@dnd-kit/core";
-import {
-	SortableContext,
-	arrayMove,
-	sortableKeyboardCoordinates,
-	useSortable,
-	verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
 import { StationSelect } from "@/components/stationsSelect";
 import { TransportBadges } from "@/components/transportBadges";
 import { Button } from "@/components/ui/button";
@@ -51,10 +51,7 @@ type SortableStationItemProps = {
 	onRemove: (stationId: string) => void;
 };
 
-function SortableStationItem({
-	station,
-	onRemove,
-}: SortableStationItemProps) {
+function SortableStationItem({ station, onRemove }: SortableStationItemProps) {
 	const {
 		attributes,
 		listeners,
