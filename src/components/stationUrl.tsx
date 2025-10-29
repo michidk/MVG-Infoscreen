@@ -17,6 +17,7 @@ import {
 	verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { useQueryClient } from "@tanstack/react-query";
 import {
 	CheckCircle2,
 	Copy,
@@ -28,6 +29,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { getRecentDepartures } from "@/app/infoscreen/actions";
 import { StationSelect } from "@/components/stationsSelect";
 import { TransportBadges } from "@/components/transportBadges";
 import { Button } from "@/components/ui/button";
@@ -99,6 +101,7 @@ function SortableStationItem({ station, onRemove }: SortableStationItemProps) {
 
 export function StationUrl(props: Props) {
 	const { stations } = props;
+	const queryClient = useQueryClient();
 
 	const [selectedStations, setSelectedStations] = useState<BasicStationInfo[]>(
 		[],
@@ -125,6 +128,22 @@ export function StationUrl(props: Props) {
 			);
 		}
 	}, [url, active]);
+
+	// Prefetch departure data for selected stations
+	// This makes the infoscreen load instantly when opened
+	useEffect(() => {
+		const ENTRIES = 8; // Must match the value in RenderStation
+
+		// Prefetch data for all selected stations
+		for (const station of selectedStations) {
+			queryClient.prefetchQuery({
+				queryKey: ["departures", station.id, ENTRIES],
+				queryFn: async () => {
+					return await getRecentDepartures(station.id, ENTRIES);
+				},
+			});
+		}
+	}, [selectedStations, queryClient]);
 
 	const handleCopy = async () => {
 		await navigator.clipboard.writeText(url);

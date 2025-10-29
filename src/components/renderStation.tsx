@@ -1,7 +1,6 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
-import { getRecentDepartures } from "@/app/infoscreen/actions";
+import { useDepartures } from "@/hooks/useDepartures";
 import { Skeleton } from "./ui/skeleton";
 import { Table, TableBody, TableCell, TableRow } from "./ui/table";
 
@@ -15,25 +14,9 @@ const SKELETON_IDS = Array.from({ length: ENTRIES }, (_, i) => `skeleton-${i}`);
 export function RenderStation(props: RenderStationProps) {
 	const { stationId } = props;
 
-	const {
-		data: departures = [],
-		isLoading,
-		isError,
-	} = useQuery({
-		queryKey: ["departures", stationId],
-		queryFn: async () => {
-			try {
-				return await getRecentDepartures(stationId, ENTRIES);
-			} catch (e) {
-				const error = e as { code: string; message: string };
-				if (error.code === "ECONNABORTED") {
-					console.error("Request to `/departure` timed out");
-				} else {
-					console.error("An error occurred (`/departure`)", error.message);
-				}
-				throw e;
-			}
-		},
+	const { departures, isLoading, isError } = useDepartures({
+		stationId,
+		entries: ENTRIES,
 	});
 
 	return (
