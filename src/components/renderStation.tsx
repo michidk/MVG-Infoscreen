@@ -26,23 +26,29 @@ export function RenderStation(props: RenderStationProps) {
 					SKELETON_IDS.map((id, index) => (
 						<TableRow
 							key={id}
-							className={`text-3xl ${index % 2 === 0 ? "" : "bg-blue-800"}`}
+							className={`text-5xl transition-colors ${
+								index % 2 === 0
+									? "bg-blue-800/30 hover:bg-blue-800/40"
+									: "bg-blue-700/20 hover:bg-blue-700/30"
+							}`}
 						>
-							<TableCell className="p-0 px-4 py-2" colSpan={3}>
-								<Skeleton className="h-8 w-full" />
+							<TableCell className="px-8 py-6" colSpan={3}>
+								<Skeleton className="h-14 w-full rounded-lg" />
 							</TableCell>
 						</TableRow>
 					))}
 				{isError && (
-					<TableRow className="text-3xl">
-						<TableCell className="p-0 px-4 py-2">
+					<TableRow className="text-5xl bg-red-900/20">
+						<TableCell className="px-8 py-6 text-red-300 font-medium">
 							Error loading departures
 						</TableCell>
 					</TableRow>
 				)}
 				{!isLoading && !isError && departures.length === 0 && (
-					<TableRow className="text-3xl">
-						<TableCell className="p-0 px-4 py-2">No departures</TableCell>
+					<TableRow className="text-5xl">
+						<TableCell className="px-8 py-6 text-blue-200 font-medium">
+							No departures
+						</TableCell>
 					</TableRow>
 				)}
 				{!isLoading &&
@@ -51,19 +57,25 @@ export function RenderStation(props: RenderStationProps) {
 					departures.map((departure, index) => (
 						<TableRow
 							key={departure.label}
-							className={`text-3xl ${index % 2 === 0 ? "" : "bg-blue-800"}`}
+							className={`text-5xl transition-colors border-b border-blue-700/30 ${
+								index % 2 === 0
+									? "bg-blue-800/30 hover:bg-blue-800/40"
+									: "bg-blue-700/20 hover:bg-blue-700/30"
+							}`}
 						>
-							<TableCell className="p-0 px-4 py-2">
+							<TableCell className="px-8 py-6 w-48">
 								{formatVehicleIdentifier(
 									departure.transportType,
 									departure.label,
 								)}
 							</TableCell>
-							<TableCell className="p-0 px-4">
+							<TableCell className="px-8 py-6 font-semibold text-white">
 								{departure.destination}
 							</TableCell>
-							<TableCell className="p-0 px-4">
-								{formatDepartureTime(departure.realtimeDepartureTime)}
+							<TableCell className="px-8 py-6 text-right w-56">
+								<span className="inline-block bg-blue-600/40 px-6 py-3 rounded-lg font-bold text-white min-w-[140px] text-center border border-blue-500/30">
+									{formatDepartureTime(departure.realtimeDepartureTime)}
+								</span>
 							</TableCell>
 						</TableRow>
 					))}
@@ -116,8 +128,13 @@ function formatVehicleIdentifier(type: string, label: string) {
 			}
 			return (
 				<div
-					className="rounded-full w-fit px-4"
-					style={{ color: fgColor, backgroundColor: bgColor }}
+					className="rounded-full w-fit px-6 py-2 font-bold text-3xl shadow-lg border-2"
+					style={{
+						color: fgColor,
+						backgroundColor: bgColor,
+						borderColor:
+							fgColor === "#f1b032" ? fgColor : "rgba(255,255,255,0.3)",
+					}}
 				>
 					{label}
 				</div>
@@ -149,7 +166,7 @@ function formatVehicleIdentifier(type: string, label: string) {
 
 			return (
 				<div
-					className="w-fit px-4"
+					className="rounded-md w-fit px-6 py-2 font-bold text-3xl shadow-lg border-2 border-white/30"
 					style={{ backgroundColor: bgColor, color: fgColor }}
 				>
 					{label}
@@ -194,7 +211,7 @@ function formatVehicleIdentifier(type: string, label: string) {
 			}
 			return (
 				<div
-					className="w-fit px-4"
+					className="rounded-md w-fit px-6 py-2 font-bold text-3xl shadow-lg border-2 border-white/30"
 					style={{ backgroundColor: bgColor, color: fgColor }}
 				>
 					{label}
@@ -205,7 +222,7 @@ function formatVehicleIdentifier(type: string, label: string) {
 		case "REGIONAL_BUS": {
 			return (
 				<div
-					className="w-fit px-4"
+					className="rounded-md w-fit px-6 py-2 font-bold text-3xl shadow-lg border-2 border-white/30"
 					style={{ backgroundColor: "#f99f1f", color: "#ffffff" }}
 				>
 					{label}
@@ -215,7 +232,7 @@ function formatVehicleIdentifier(type: string, label: string) {
 		default:
 			return (
 				<div
-					className="w-fit px-4"
+					className="rounded-md w-fit px-6 py-2 font-bold text-3xl shadow-lg border-2 border-white/30"
 					style={{ backgroundColor: "#f99f1f", color: "#ffffff" }}
 				>
 					{label}

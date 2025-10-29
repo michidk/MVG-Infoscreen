@@ -1,6 +1,7 @@
 "use server";
 
 import { RenderStation } from "@/components/renderStation";
+import { TransportBadges } from "@/components/transportBadges";
 import { type BasicStationInfo, getStations } from "@/lib/stations";
 
 type Props = {
@@ -45,20 +46,41 @@ export default async function Page(props: Props) {
 		return <div>Invalid station provided.</div>;
 	}
 
-	const stationInfos = availableStations.filter((station) =>
+	let stationInfos = availableStations.filter((station) =>
 		stations.includes(station.id),
 	);
 
+	// Limit to maximum 6 stations
+	stationInfos = stationInfos.slice(0, 6);
+
+	// Determine grid columns based on number of stations
+	let gridColsClass = "grid-cols-1";
+	if (stationInfos.length === 2) {
+		gridColsClass = "grid-cols-2";
+	} else if (stationInfos.length >= 3) {
+		gridColsClass = "grid-cols-3";
+	}
+
 	return (
-		<>
+		<div className={`grid ${gridColsClass} gap-10 h-full`}>
 			{stationInfos.map((station) => (
-				<div key={station.id} className="mb-8">
-					<h1 className="text-6xl pb-4">{station.name}</h1>
-					<div className="w-full bg-blue-700">
+				<div
+					key={station.id}
+					className="bg-gradient-to-br from-blue-800/90 to-blue-900/90 backdrop-blur-sm rounded-2xl shadow-2xl border border-blue-700/50 overflow-hidden flex flex-col"
+				>
+					<div className="bg-gradient-to-r from-blue-700 to-blue-600 px-10 py-8 border-b border-blue-600/50 flex items-center justify-between">
+						<h1 className="text-7xl font-bold text-white tracking-tight">
+							{station.name}
+						</h1>
+						<div className="scale-[2.5]">
+							<TransportBadges products={station.products} size="md" />
+						</div>
+					</div>
+					<div className="p-8 flex-1">
 						<RenderStation stationId={station.id} />
 					</div>
 				</div>
 			))}
-		</>
+		</div>
 	);
 }
