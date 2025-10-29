@@ -2,9 +2,27 @@
 
 import { useQueryClient } from "@tanstack/react-query";
 import {
+	closestCenter,
+	DndContext,
+	type DragEndEvent,
+	KeyboardSensor,
+	PointerSensor,
+	useSensor,
+	useSensors,
+} from "@dnd-kit/core";
+import {
+	arrayMove,
+	SortableContext,
+	sortableKeyboardCoordinates,
+	useSortable,
+	verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import {
 	CheckCircle2,
 	Copy,
 	ExternalLink,
+	GripVertical,
 	QrCode,
 	Trash2,
 	X,
@@ -30,6 +48,57 @@ type Props = {
 	stations: BasicStationInfo[];
 };
 
+type SortableStationItemProps = {
+	station: BasicStationInfo;
+	onRemove: (stationId: string) => void;
+};
+
+function SortableStationItem({ station, onRemove }: SortableStationItemProps) {
+	const {
+		attributes,
+		listeners,
+		setNodeRef,
+		transform,
+		transition,
+		isDragging,
+	} = useSortable({ id: station.id });
+
+	const style = {
+		transform: CSS.Transform.toString(transform),
+		transition,
+	};
+
+	return (
+		<div
+			ref={setNodeRef}
+			style={style}
+			className={`flex items-center gap-3 p-3 bg-background rounded-md border hover:border-primary/50 transition-colors ${
+				isDragging ? "opacity-50 cursor-grabbing" : "cursor-grab"
+			}`}
+		>
+			<div
+				{...attributes}
+				{...listeners}
+				className="shrink-0 text-muted-foreground hover:text-foreground transition-colors"
+			>
+				<GripVertical className="h-5 w-5" />
+			</div>
+			<div className="flex items-center gap-3 flex-1 min-w-0">
+				<span className="font-medium truncate">{station.name}</span>
+				<TransportBadges products={station.products} size="sm" />
+			</div>
+			<button
+				type="button"
+				onClick={() => onRemove(station.id)}
+				className="shrink-0 p-1 hover:bg-destructive/10 hover:text-destructive rounded transition-colors"
+				aria-label={`Remove ${station.name}`}
+			>
+				<X className="h-4 w-4" />
+			</button>
+		</div>
+	);
+}
+
 export function StationUrl(props: Props) {
 	const { stations } = props;
 	const queryClient = useQueryClient();
@@ -40,6 +109,13 @@ export function StationUrl(props: Props) {
 	const [copied, setCopied] = useState(false);
 	const [showQR, setShowQR] = useState(false);
 	const [qrCodeUrl, setQrCodeUrl] = useState("");
+
+	const sensors = useSensors(
+		useSensor(PointerSensor),
+		useSensor(KeyboardSensor, {
+			coordinateGetter: sortableKeyboardCoordinates,
+		}),
+	);
 
 	const url = `${siteConfig.url}/infoscreen?stations=${selectedStations.map((station) => station.id).join(",")}`;
 	const active = selectedStations.length > 0;
@@ -100,6 +176,19 @@ export function StationUrl(props: Props) {
 		setSelectedStations(exampleStations);
 	};
 
+	const handleDragEnd = (event: DragEndEvent) => {
+		const { active, over } = event;
+
+		if (over && active.id !== over.id) {
+			setSelectedStations((items) => {
+				const oldIndex = items.findIndex((item) => item.id === active.id);
+				const newIndex = items.findIndex((item) => item.id === over.id);
+
+				return arrayMove(items, oldIndex, newIndex);
+			});
+		}
+	};
+
 	return (
 		<div className="space-y-6 w-full max-w-4xl mx-auto">
 			<Card>
@@ -151,7 +240,7 @@ export function StationUrl(props: Props) {
 								size="sm"
 								onClick={() => handleLoadExample(["de:09162:40"])}
 							>
-								Götheplatz
+								Goetheplatz
 							</Button>
 							<Button
 								variant="outline"
@@ -176,27 +265,24 @@ export function StationUrl(props: Props) {
 								Selected Stations ({selectedStations.length})
 							</div>
 							<div className="space-y-2 p-4 bg-muted rounded-lg">
-								{selectedStations.map((station) => (
-									<div
-										key={station.id}
-										className="flex items-center justify-between gap-3 p-3 bg-background rounded-md border hover:border-primary/50 transition-colors"
+								<DndContext
+									sensors={sensors}
+									collisionDetection={closestCenter}
+									onDragEnd={handleDragEnd}
+								>
+									<SortableContext
+										items={selectedStations.map((station) => station.id)}
+										strategy={verticalListSortingStrategy}
 									>
-										<div className="flex items-center gap-3 flex-1 min-w-0">
-											<span className="font-medium truncate">
-												{station.name}
-											</span>
-											<TransportBadges products={station.products} size="sm" />
-										</div>
-										<button
-											type="button"
-											onClick={() => handleRemoveStation(station.id)}
-											className="shrink-0 p-1 hover:bg-destructive/10 hover:text-destructive rounded transition-colors"
-											aria-label={`Remove ${station.name}`}
-										>
-											<X className="h-4 w-4" />
-										</button>
-									</div>
-								))}
+										{selectedStations.map((station) => (
+											<SortableStationItem
+												key={station.id}
+												station={station}
+												onRemove={handleRemoveStation}
+											/>
+										))}
+									</SortableContext>
+								</DndContext>
 							</div>
 						</div>
 					) : (
