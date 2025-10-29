@@ -74,6 +74,13 @@ export function StationUrl(props: Props) {
 		}
 	};
 
+	const handleLoadExample = (stationIds: string[]) => {
+		const exampleStations = stations.filter((station) =>
+			stationIds.includes(station.id),
+		);
+		setSelectedStations(exampleStations);
+	};
+
 	return (
 		<div className="space-y-6 w-full max-w-4xl mx-auto">
 			<Card>
@@ -105,6 +112,42 @@ export function StationUrl(props: Props) {
 							selectedStations={selectedStations}
 							onSelect={handleSelect}
 						/>
+					</div>
+
+					{/* Example Stations */}
+					<div className="space-y-3">
+						<div className="text-sm font-medium">Quick Examples</div>
+						<div className="flex flex-wrap gap-2">
+							<Button
+								variant="outline"
+								size="sm"
+								onClick={() =>
+									handleLoadExample(["de:09162:1450", "de:09162:1310"])
+								}
+							>
+								Obersendling & Siemenswerke
+							</Button>
+							<Button
+								variant="outline"
+								size="sm"
+								onClick={() => handleLoadExample(["de:09162:40"])}
+							>
+								Götheplatz
+							</Button>
+							<Button
+								variant="outline"
+								size="sm"
+								onClick={() =>
+									handleLoadExample([
+										"de:09179:6170",
+										"de:09179:6190",
+										"de:09179:6180",
+									])
+								}
+							>
+								Puchheim, Eichenau, FFB
+							</Button>
+						</div>
 					</div>
 
 					{/* Selected Stations Display */}
