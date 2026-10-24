@@ -20,17 +20,17 @@ jobs:
       contents: read
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - name: Setup Node.js
-        uses: actions/setup-node@v7
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
           node-version: 20
 
       - name: Setup bun
-        uses: oven-sh/setup-bun@v2
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
 
-      - uses: actions/cache@v6
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         env:
           cache-name: bun-cache
         with:
@@ -40,7 +40,7 @@ jobs:
       - name: Install dependencies
         run: bun install
 
-      - uses: mongolyy/reviewdog-action-biome@v2
+      - uses: mongolyy/reviewdog-action-biome@4449276b58c4687dd64f64a50415486110dc9285 # v2
         with:
           reporter: 'github-check'
           fail_on_error: true
@@ -52,10 +52,10 @@ jobs:
     runs-on: ubuntu-26.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - name: Run typos
-        uses: Shemnei/reviewdog-action-typos@v0
+        uses: Shemnei/reviewdog-action-typos@35d34d657567e18cfb722e89287b380dc65b0bca # v0
         with:
           reporter: 'github-check'
           fail_on_error: true
