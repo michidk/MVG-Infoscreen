@@ -35,7 +35,7 @@
 		"tailwindcss-animate": "^1.0.7"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.6.7",
+		"@biomejs/biome": "2.6.8",
 		"@tailwindcss/postcss": "4.3.5",
 		"@tanstack/react-query-devtools": "5.107.1",
 		"@types/node": "26.6.6",
