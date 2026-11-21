@@ -1,11 +1,13 @@
 # MVG Departures Infoscreen
 
-[![MIT License](https://img.shields.io/badge/license-MIT-blue)](https://choosealicense.com/licenses/mit/)
+[![MIT License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
 This is a simple web app displaying the live departures of the MVG (Münchner Verkehrsgesellschaft) in Munich (Germany) for one or more stations, meant for digital signage.
 
+<p align="center"><a href="https://mvg-infoscreen.vercel.app/">Open infoscreen</a> · <a href="#how-to-use">Usage</a> · <a href="#development">Development</a></p>
+
 Currently, running on the infoscreen in the office of [STABL Energy GmbH](https://stabl.com/) powered by [piSignage](https://pisignage.com/):
-![MVG Infoscreen running on a display in our office](.github/images/monitor.jpg)
+<p align="center"><img src=".github/images/monitor.jpg" width="720" alt="MVG Infoscreen running on a display in our office"></p>
 
 It is built with [Next.js](https://nextjs.org/), [Tailwind CSS](https://tailwindcss.com/) and [shadcn/ui](https://shadcn.com/).
 
@@ -21,7 +23,7 @@ You can also use the `?stations=` query parameter to configure the stations dire
 
 For example, to display the departures for the stations "Marienplatz" (ID `de:09162:2`) and "Münchner Freiheit" (ID `de:09162:500`), you can use the following URL: [mvg-infoscreen.vercel.app/infoscreen?stations=de:09162:2,de:09162:500](https://mvg-infoscreen.vercel.app/infoscreen?stations=de:09162:2,de:09162:500), which will display as follows:
 
-![Screenshot of the infoscreen](.github/images/screenshot.png)
+<p align="center"><img src=".github/images/screenshot.png" width="800" alt="Departures for Marienplatz and Münchner Freiheit"></p>
 
 ## Development
 
