@@ -28,6 +28,7 @@ export const metadata: Metadata = {
 		description: siteConfig.description,
 		siteName: siteConfig.name,
 	},
+	twitter: { card: "summary_large_image" },
 };
 
 export default async function RootLayout({
